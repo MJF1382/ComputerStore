@@ -25,7 +25,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\components\" />
+    <Content Include="ClientApp\src\images\Blog.png" />
+    <Content Include="ClientApp\src\images\E-Nemad.png" />
+    <Content Include="ClientApp\src\images\Home.png" />
+    <Content Include="ClientApp\src\images\KasbOKar.png" />
+    <Content Include="ClientApp\src\images\Logo.PNG" />
+    <Content Include="ClientApp\src\images\Person.png" />
+    <Content Include="ClientApp\src\images\Products_Battery.png" />
+    <Content Include="ClientApp\src\images\Products_CPU.png" />
+    <Content Include="ClientApp\src\images\Products_Fan.png" />
+    <Content Include="ClientApp\src\images\Products_HDD.png" />
+    <Content Include="ClientApp\src\images\Products_NetCard.png" />
+    <Content Include="ClientApp\src\images\Products_RAM.png" />
+    <Content Include="ClientApp\src\images\Products_Server.png" />
+    <Content Include="ClientApp\src\images\Products_ServerCache.png" />
+    <Content Include="ClientApp\src\images\Samandehi.png" />
+    <Content Include="ClientApp\src\images\Servers.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
 
