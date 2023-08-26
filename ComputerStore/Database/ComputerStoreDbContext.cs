@@ -21,6 +21,7 @@ namespace ComputerStore.Database
             modelBuilder.MapArticle();
             modelBuilder.MapExtraDetail();
             modelBuilder.MapComment();
+            modelBuilder.MapArticleTag();
         }
 
         public DbSet<Product> Products { get; set; }
