@@ -24,6 +24,27 @@ namespace ComputerStore.Database
             modelBuilder.MapComment();
             modelBuilder.MapArticleTag();
             modelBuilder.MapProductPurchase();
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUsers");
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppRoles");
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUserClaims");
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppRoleClaims");
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUserRoles");
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUserLogins");
+
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUserTokens");
         }
 
         public DbSet<Product> Products { get; set; }
