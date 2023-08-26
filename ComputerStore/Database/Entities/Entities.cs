@@ -27,7 +27,7 @@ namespace ComputerStore.Database.Entities
         public int Price { get; set; }
 
 
-        public int OfferedPrice { get; set; }
+        public int? OfferedPrice { get; set; }
 
         [Required]
         public int Quantity { get; set; }
@@ -162,10 +162,10 @@ namespace ComputerStore.Database.Entities
         public Guid UserId { get; set; }
 
 
-        public Guid ProductId { get; set; }
+        public Guid? ProductId { get; set; }
 
 
-        public Guid ArticleId { get; set; }
+        public Guid? ArticleId { get; set; }
 
         [Required]
         public int Score { get; set; }
@@ -223,7 +223,7 @@ namespace ComputerStore.Database.Entities
         public string PostalCode { get; set; }
 
         [StringLength(300)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         public int Amount { get; set; }
