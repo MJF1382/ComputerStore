@@ -95,6 +95,7 @@ namespace ComputerStore.Database.Entities
         public string Name { get; set; }
 
         public List<Product> Products { get; set; }
+        public List<Article> Articles { get; set; }
     }
 
     public class Brand
