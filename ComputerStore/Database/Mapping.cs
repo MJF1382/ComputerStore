@@ -42,5 +42,13 @@ namespace ComputerStore.Database
                 .WithMany(p => p.Articles)
                 .HasForeignKey(p => p.CategoryId);
         }
+
+        public static void MapExtraDetail(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ExtraDetail>()
+                .HasOne(p => p.Product)
+                .WithMany(p => p.ExtraDetails)
+                .HasForeignKey(p => p.ProductId);
+        }
     }
 }
