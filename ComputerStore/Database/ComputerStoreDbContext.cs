@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ComputerStore.Database
 {
-    public class ComputerStoreDbContext : IdentityDbContext
+    public class ComputerStoreDbContext : IdentityDbContext<AppUser>
     {
         public ComputerStoreDbContext(DbContextOptions<ComputerStoreDbContext> options)
             : base(options)
