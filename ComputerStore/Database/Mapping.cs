@@ -76,5 +76,18 @@ namespace ComputerStore.Database
                 .WithMany(p => p.ArticleTags)
                 .HasForeignKey(p => p.TagId);
         }
+
+        public static void MapProductPurchase(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ProductPurchase>()
+                .HasOne(p => p.Product)
+                .WithMany(p => p.ProductPurchases)
+                .HasForeignKey(p => p.ProductId);
+
+            modelBuilder.Entity<ProductPurchase>()
+                .HasOne(p => p.Purchase)
+                .WithMany(p => p.ProductPurchases)
+                .HasForeignKey(p => p.PurchaseId);
+        }
     }
 }
