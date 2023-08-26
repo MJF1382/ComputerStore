@@ -50,5 +50,18 @@ namespace ComputerStore.Database
                 .WithMany(p => p.ExtraDetails)
                 .HasForeignKey(p => p.ProductId);
         }
+
+        public static void MapComment(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Comment>()
+                .HasOne(p => p.Product)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(p => p.ProductId);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(p => p.Article)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(p => p.ArticleId);
+        }
     }
 }
