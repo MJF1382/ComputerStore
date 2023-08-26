@@ -56,12 +56,14 @@ namespace ComputerStore.Database
             modelBuilder.Entity<Comment>()
                 .HasOne(p => p.Product)
                 .WithMany(p => p.Comments)
-                .HasForeignKey(p => p.ProductId);
+                .HasForeignKey(p => p.ProductId)
+                .IsRequired(false); ;
 
             modelBuilder.Entity<Comment>()
                 .HasOne(p => p.Article)
                 .WithMany(p => p.Comments)
-                .HasForeignKey(p => p.ArticleId);
+                .HasForeignKey(p => p.ArticleId)
+                .IsRequired(false);
         }
 
         public static void MapArticleTag(this ModelBuilder modelBuilder)
