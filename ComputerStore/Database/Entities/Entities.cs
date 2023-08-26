@@ -36,6 +36,7 @@ namespace ComputerStore.Database.Entities
         public Brand Brand { get; set; }
         public List<ProductPurchase> ProductPurchases { get; set; }
         public List<ExtraDetail> ExtraDetails { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 
     public class ProductPurchase
@@ -72,6 +73,7 @@ namespace ComputerStore.Database.Entities
 
         public Category Category { get; set; }
         public List<ArticleTag> ArticleTags { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 
     public class ArticleTag
