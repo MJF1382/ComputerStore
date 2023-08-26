@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ComputerStore.Database.Entities;
 using ComputerStore.Database;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ComputerStore.Database
 {
-    public class ComputerStoreDbContext : DbContext
+    public class ComputerStoreDbContext : IdentityDbContext
     {
         public ComputerStoreDbContext(DbContextOptions<ComputerStoreDbContext> options)
             : base(options)
