@@ -1,10 +1,16 @@
 using ComputerStore.Database;
+using ComputerStore.Database.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ComputerStoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services
+    .AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<ComputerStoreDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
