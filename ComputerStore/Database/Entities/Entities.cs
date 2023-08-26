@@ -31,6 +31,11 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         public int Quantity { get; set; }
+
+        public Category Category { get; set; }
+        public Brand Brand { get; set; }
+        public List<ProductPurchase> ProductPurchases { get; set; }
+        public List<ExtraDetail> ExtraDetails { get; set; }
     }
 
     public class ProductPurchase
@@ -40,6 +45,9 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         public Guid PurchaseId { get; set; }
+
+        public Product Product { get; set; }
+        public Purchase Purchase { get; set; }
     }
 
     public class Article
@@ -61,6 +69,9 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         public DateTime PublishDateTime { get; set; }
+
+        public Category Category { get; set; }
+        public List<ArticleTag> ArticleTags { get; set; }
     }
 
     public class ArticleTag
@@ -70,8 +81,10 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         public Guid TagId { get; set; }
-    }
 
+        public Article Article { get; set; }
+        public Tag Tag { get; set; }
+    }
 
     public class Category
     {
@@ -80,15 +93,19 @@ namespace ComputerStore.Database.Entities
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 
-    public class Brands
+    public class Brand
     {
         public Guid Id { get; set; }
 
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 
     public class ExtraDetail
@@ -105,6 +122,8 @@ namespace ComputerStore.Database.Entities
         [Required]
         [StringLength(300)]
         public string Value { get; set; }
+
+        public Product Product { get; set; }
     }
 
     public class Ticket
@@ -139,8 +158,11 @@ namespace ComputerStore.Database.Entities
         [Required]
         public Guid UserId { get; set; }
 
-        [Required]
-        public Guid ProductArticleId { get; set; }
+
+        public Guid ProductId { get; set; }
+
+
+        public Guid ArticleId { get; set; }
 
         [Required]
         public int Score { get; set; }
@@ -162,6 +184,9 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         public DateTime PublishDateTime { get; set; }
+
+        public Product Product { get; set; }
+        public Article Article { get; set; }
     }
 
     public class Purchase
@@ -202,6 +227,8 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         public DateTime PurchaseDateTime { get; set; }
+
+        public List<ProductPurchase> ProductPurchases { get; set; }
     }
 
     public class Tag
@@ -211,5 +238,7 @@ namespace ComputerStore.Database.Entities
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+
+        public List<ArticleTag> ArticleTags { get; set; }
     }
 }
