@@ -17,12 +17,13 @@ namespace ComputerStore.Database
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.MapIds();
+            modelBuilder.MapProduct();
         }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Brands> Brands { get; set; }
+        public DbSet<Brand> Brands { get; set; }
         public DbSet<ExtraDetail> ExtraDetails { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Comment> Comments { get; set; }
