@@ -18,6 +18,7 @@ namespace ComputerStore.Database
 
             modelBuilder.MapIds();
             modelBuilder.MapProduct();
+            modelBuilder.MapArticle();
         }
 
         public DbSet<Product> Products { get; set; }
