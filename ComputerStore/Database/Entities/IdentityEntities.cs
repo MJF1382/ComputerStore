@@ -17,6 +17,10 @@ namespace ComputerStore.Database.Entities
         public virtual ICollection<AppUserLogin> Logins { get; set; }
         public virtual ICollection<AppUserToken> Tokens { get; set; }
         public virtual ICollection<AppUserRole> UserRoles { get; set; }
+        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 
     public class AppRole : IdentityRole<Guid>

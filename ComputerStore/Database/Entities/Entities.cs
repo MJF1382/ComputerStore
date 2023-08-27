@@ -72,6 +72,7 @@ namespace ComputerStore.Database.Entities
         public DateTime PublishDateTime { get; set; }
 
         public Category Category { get; set; }
+        public AppUser User { get; set; }
         public List<ArticleTag> ArticleTags { get; set; }
         public List<Comment> Comments { get; set; }
     }
@@ -134,6 +135,9 @@ namespace ComputerStore.Database.Entities
         public Guid Id { get; set; }
 
         [Required]
+        public Guid UserId { get; set; }
+
+        [Required]
         [StringLength(100)]
         public string FullName { get; set; }
 
@@ -152,6 +156,8 @@ namespace ComputerStore.Database.Entities
         [Required]
         [StringLength(1000)]
         public string Body { get; set; }
+
+        public AppUser User { get; set; }
     }
 
     public class Comment
@@ -190,6 +196,7 @@ namespace ComputerStore.Database.Entities
 
         public Product Product { get; set; }
         public Article Article { get; set; }
+        public AppUser User { get; set; }
     }
 
     public class Purchase
@@ -232,6 +239,7 @@ namespace ComputerStore.Database.Entities
         public DateTime PurchaseDateTime { get; set; }
 
         public List<ProductPurchase> ProductPurchases { get; set; }
+        public AppUser User { get; set; }
     }
 
     public class Tag
