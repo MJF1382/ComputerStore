@@ -26,6 +26,8 @@ namespace ComputerStore.Database
             modelBuilder.MapArticle();
             modelBuilder.MapExtraDetail();
             modelBuilder.MapComment();
+            modelBuilder.MapTicket();
+            modelBuilder.MapPurchase();
             modelBuilder.MapArticleTag();
             modelBuilder.MapProductPurchase();
         }
