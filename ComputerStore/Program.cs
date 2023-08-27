@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ComputerStoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services
-    .AddIdentity<AppUser, AppRole>()
+    .AddIdentity<AppUser, IdentityRole<string>>()
     .AddEntityFrameworkStores<ComputerStoreDbContext>()
     .AddDefaultTokenProviders();
 

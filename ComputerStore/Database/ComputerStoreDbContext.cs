@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ComputerStore.Database
 {
-    public class ComputerStoreDbContext : IdentityDbContext<AppUser, AppRole, string, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
+    public class ComputerStoreDbContext : IdentityDbContext<AppUser, IdentityRole<string>, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public ComputerStoreDbContext(DbContextOptions<ComputerStoreDbContext> options)
             : base(options)
@@ -18,8 +18,26 @@ namespace ComputerStore.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.MapDefaultIdentity();
-            modelBuilder.MapIdentityTableNames();
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUsers");
+
+            modelBuilder.Entity<IdentityRole<string>>()
+                .ToTable("AppRoles");
+
+            modelBuilder.Entity<IdentityUserClaim<string>>()
+                .ToTable("AppUserClaims");
+
+            modelBuilder.Entity<IdentityRoleClaim<string>>()
+                .ToTable("AppRoleClaims");
+
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .ToTable("AppUserRoles");
+
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .ToTable("AppUserLogins");
+
+            modelBuilder.Entity<IdentityUserToken<string>>()
+                .ToTable("AppUserTokens");
 
             modelBuilder.MapIds();
             modelBuilder.MapProduct();
