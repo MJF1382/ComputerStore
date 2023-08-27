@@ -1,4 +1,5 @@
 ﻿using ComputerStore.Database.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -90,6 +91,74 @@ namespace ComputerStore.Database
                 .HasOne(p => p.Purchase)
                 .WithMany(p => p.ProductPurchases)
                 .HasForeignKey(p => p.PurchaseId);
+        }
+
+
+        public static void MapDefaultIdentity(this ModelBuilder modelBuilder)
+        {
+            // User
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Claims)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Logins)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Tokens)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.UserRoles)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .IsRequired();
+
+            // Role
+
+            modelBuilder.Entity<AppRole>()
+                .HasMany(p => p.UserRoles)
+                .WithOne(p => p.Role)
+                .HasForeignKey(p => p.RoleId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppRole>()
+                .HasMany(p => p.RoleClaims)
+                .WithOne(p => p.Role)
+                .HasForeignKey(p => p.RoleId)
+                .IsRequired();
+        }
+
+        public static void MapIdentityTableNames(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUsers");
+
+            modelBuilder.Entity<AppRole>()
+                .ToTable("AppRoles");
+
+            modelBuilder.Entity<AppUserClaim>()
+                .ToTable("AppUserClaims");
+
+            modelBuilder.Entity<AppRoleClaim>()
+                .ToTable("AppRoleClaims");
+
+            modelBuilder.Entity<AppUserRole>()
+                .ToTable("AppUserRoles");
+
+            modelBuilder.Entity<AppUserLogin>()
+                .ToTable("AppUserLogins");
+
+            modelBuilder.Entity<AppUserToken>()
+                .ToTable("AppUserTokens");
         }
     }
 }
