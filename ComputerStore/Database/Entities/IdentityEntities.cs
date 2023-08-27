@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ComputerStore.Database.Entities
 {
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser<Guid>
     {
         [Required]
         [StringLength(100)]
@@ -19,34 +19,34 @@ namespace ComputerStore.Database.Entities
         public virtual ICollection<AppUserRole> UserRoles { get; set; }
     }
 
-    public class AppRole : IdentityRole
+    public class AppRole : IdentityRole<Guid>
     {
         public virtual ICollection<AppUserRole> UserRoles { get; set; }
         public virtual ICollection<AppRoleClaim> RoleClaims { get; set; }
     }
 
-    public class AppUserRole : IdentityUserRole<string>
+    public class AppUserRole : IdentityUserRole<Guid>
     {
         public virtual AppUser User { get; set; }
         public virtual AppRole Role { get; set; }
     }
 
-    public class AppUserClaim : IdentityUserClaim<string>
+    public class AppUserClaim : IdentityUserClaim<Guid>
     {
         public virtual AppUser User { get; set; }
     }
 
-    public class AppUserLogin : IdentityUserLogin<string>
+    public class AppUserLogin : IdentityUserLogin<Guid>
     {
         public virtual AppUser User { get; set; }
     }
 
-    public class AppRoleClaim : IdentityRoleClaim<string>
+    public class AppRoleClaim : IdentityRoleClaim<Guid>
     {
         public virtual AppRole Role { get; set; }
     }
 
-    public class AppUserToken : IdentityUserToken<string>
+    public class AppUserToken : IdentityUserToken<Guid>
     {
         public virtual AppUser User { get; set; }
     }

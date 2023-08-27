@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ComputerStore.Database
 {
-    public class ComputerStoreDbContext : IdentityDbContext<AppUser, AppRole, string, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
+    public class ComputerStoreDbContext : IdentityDbContext<AppUser, AppRole, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
     {
         public ComputerStoreDbContext(DbContextOptions<ComputerStoreDbContext> options)
             : base(options)
