@@ -42,6 +42,11 @@ namespace ComputerStore.Database
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Articles)
                 .HasForeignKey(p => p.CategoryId);
+
+            modelBuilder.Entity<Article>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Articles)
+                .HasForeignKey(p => p.UserId);
         }
 
         public static void MapExtraDetail(this ModelBuilder modelBuilder)
@@ -65,6 +70,27 @@ namespace ComputerStore.Database
                 .WithMany(p => p.Comments)
                 .HasForeignKey(p => p.ArticleId)
                 .IsRequired(false);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(p => p.UserId);
+        }
+
+        public static void MapTicket(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Ticket>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Tickets)
+                .HasForeignKey(p => p.UserId);
+        }
+
+        public static void MapPurchase(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Purchase>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Purchases)
+                .HasForeignKey(p => p.UserId);
         }
 
         public static void MapArticleTag(this ModelBuilder modelBuilder)
