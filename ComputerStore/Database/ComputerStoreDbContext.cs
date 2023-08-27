@@ -2,10 +2,11 @@
 using ComputerStore.Database.Entities;
 using ComputerStore.Database;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace ComputerStore.Database
 {
-    public class ComputerStoreDbContext : IdentityDbContext<AppUser>
+    public class ComputerStoreDbContext : IdentityDbContext<AppUser, IdentityRole<string>, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public ComputerStoreDbContext(DbContextOptions<ComputerStoreDbContext> options)
             : base(options)
@@ -17,6 +18,27 @@ namespace ComputerStore.Database
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<AppUser>()
+                .ToTable("AppUsers");
+
+            modelBuilder.Entity<IdentityRole<string>>()
+                .ToTable("AppRoles");
+
+            modelBuilder.Entity<IdentityUserClaim<string>>()
+                .ToTable("AppUserClaims");
+
+            modelBuilder.Entity<IdentityRoleClaim<string>>()
+                .ToTable("AppRoleClaims");
+
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .ToTable("AppUserRoles");
+
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .ToTable("AppUserLogins");
+
+            modelBuilder.Entity<IdentityUserToken<string>>()
+                .ToTable("AppUserTokens");
+
             modelBuilder.MapIds();
             modelBuilder.MapProduct();
             modelBuilder.MapArticle();
@@ -24,27 +46,6 @@ namespace ComputerStore.Database
             modelBuilder.MapComment();
             modelBuilder.MapArticleTag();
             modelBuilder.MapProductPurchase();
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppUsers");
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppRoles");
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppUserClaims");
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppRoleClaims");
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppUserRoles");
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppUserLogins");
-
-            modelBuilder.Entity<AppUser>()
-                .ToTable("AppUserTokens");
         }
 
         public DbSet<Product> Products { get; set; }
