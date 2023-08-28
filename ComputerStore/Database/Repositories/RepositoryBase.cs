@@ -37,6 +37,11 @@ namespace ComputerStore.Database.Repositories
             await _context.Set<TEntity>().AddRangeAsync(entity);
         }
 
+        public void Update(TEntity entity)
+        {
+            _context.Set<TEntity>().Update(entity);
+        }
+
         public void Delete(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
