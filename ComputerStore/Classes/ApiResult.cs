@@ -1,6 +1,8 @@
-﻿namespace ComputerStore.Classes
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace ComputerStore.Classes
 {
-    public class ApiResult
+    public class ApiResult : IActionResult
     {
         public int StatusCode { get; private set; }
         public object? Content { get; private set; }
@@ -31,6 +33,16 @@
             StatusCode = (int)statusCode;
             Content = content;
             Errors = errors;
+        }
+
+        public async Task ExecuteResultAsync(ActionContext context)
+        {
+            ObjectResult result = new ObjectResult(this)
+            {
+                StatusCode = StatusCode
+            };
+
+            await result.ExecuteResultAsync(context);
         }
     }
 }
