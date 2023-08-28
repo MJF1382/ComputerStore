@@ -1,5 +1,6 @@
 using ComputerStore.Database;
 using ComputerStore.Database.Entities;
+using ComputerStore.Database.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ builder.Services
     .AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<ComputerStoreDbContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
