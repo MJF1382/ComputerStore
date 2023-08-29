@@ -28,5 +28,19 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.Ok, products);
         }
+
+        [HttpPost]
+        public async Task<ApiResult> AddProduct([FromBody] ProductModel productModel)
+        {
+            await _productRepository.AddAsync(productModel);
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Created, productModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
