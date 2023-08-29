@@ -72,5 +72,19 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ApiResult> DeleteBrand([FromRoute] Guid id)
+        {
+            _brandRepository.Delete(id);
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
