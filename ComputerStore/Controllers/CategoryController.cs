@@ -24,7 +24,7 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetCategories()
         {
-            List<CategoryModel> categories = (await _categoryRepository.GetAllAsync()).Select<Category, CategoryModel>(p => p).ToList();
+            List<CategoryModel> categories = (await _categoryRepository.GetAllAsync()).Select<Category, CategoryModel>(category => category).ToList();
 
             return new ApiResult(Status.Ok, categories);
         }
