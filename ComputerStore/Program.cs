@@ -1,3 +1,4 @@
+using ComputerStore.Classes;
 using ComputerStore.Database;
 using ComputerStore.Database.Entities;
 using ComputerStore.Database.UnitOfWork;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiResultFilterAttribute)));
 builder.Services.AddDbContext<ComputerStoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services
     .AddIdentity<AppUser, AppRole>()
