@@ -42,5 +42,21 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult> EditProduct([FromRoute] Guid id, [FromBody] ProductModel productModel)
+        {
+            productModel.Id = id;
+
+            _productRepository.Update(productModel);
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok, productModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
