@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ComputerStore.Database.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ComputerStore.Models
 {
@@ -30,5 +31,37 @@ namespace ComputerStore.Models
 
         [Required(ErrorMessage = "تعداد محصول را وارد کنید.")]
         public int Quantity { get; set; }
+
+        public static implicit operator ProductModel(Product product)
+        {
+            return new ProductModel()
+            {
+                Id = product.Id,
+                BrandId = product.BrandId,
+                CategoryId = product.CategoryId,
+                OfferedPrice = product.OfferedPrice,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Summary = product.Summary,
+                Title = product.Title,
+                Warranty = product.Warranty
+            };
+        }
+
+        public static implicit operator Product(ProductModel productModel)
+        {
+            return new Product()
+            {
+                Id = productModel.Id,
+                BrandId = productModel.BrandId,
+                CategoryId = productModel.CategoryId,
+                OfferedPrice = productModel.OfferedPrice,
+                Price = productModel.Price,
+                Quantity = productModel.Quantity,
+                Summary = productModel.Summary,
+                Title = productModel.Title,
+                Warranty = productModel.Warranty
+            };
+        }
     }
 }
