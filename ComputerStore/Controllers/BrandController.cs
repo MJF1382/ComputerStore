@@ -24,11 +24,7 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetBrands()
         {
-            List<BrandModel> brands = (await _brandRepository.GetAllAsync()).Select(brand => new BrandModel()
-            {
-                Id = brand.Id,
-                Name = brand.Name
-            }).ToList();
+            List<BrandModel> brands = (await _brandRepository.GetAllAsync()).Select<Brand, BrandModel>(brand => brand).ToList();
 
             return new ApiResult(Status.Ok, brands);
         }
@@ -36,12 +32,7 @@ namespace ComputerStore.Controllers
         [HttpPost]
         public async Task<ApiResult> AddBrand([FromBody] BrandModel brandModel)
         {
-            await _brandRepository.AddAsync(new Brand()
-            {
-                Id = brandModel.Id,
-                Name = brandModel.Name
-            });
-
+            await _brandRepository.AddAsync(brandModel);
             bool result = await _unitOfWork.Save();
 
             if (result)
@@ -55,19 +46,14 @@ namespace ComputerStore.Controllers
         [HttpPut("{id}")]
         public async Task<ApiResult> EditBrand([FromRoute] Guid id, [FromBody] BrandModel brandModel)
         {
-            Brand brand = new Brand()
-            {
-                Id = id,
-                Name = brandModel.Name
-            };
+            brandModel.Id = id;
 
-            _brandRepository.Update(brand);
-
+            _brandRepository.Update(brandModel);
             bool result = await _unitOfWork.Save();
 
             if (result)
             {
-                return new ApiResult(Status.Ok, new BrandModel() { Id = id, Name = brandModel.Name });
+                return new ApiResult(Status.Ok, brandModel);
             }
 
             return new ApiResult(Status.InternalServerError);
@@ -94,11 +80,7 @@ namespace ComputerStore.Controllers
 
             if (brand != null)
             {
-                BrandModel brandModel = new BrandModel()
-                {
-                    Id = brand.Id,
-                    Name = brand.Name
-                };
+                BrandModel brandModel = brand;
 
                 return new ApiResult(Status.Ok, brandModel);
             }
