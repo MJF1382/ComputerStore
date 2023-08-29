@@ -86,5 +86,24 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ApiResult> CategoryDetails([FromRoute] Guid id)
+        {
+            Category? category = await _categoryRepository.FindByIdAsync(id);
+
+            if (category != null)
+            {
+                CategoryModel categoryModel = new CategoryModel()
+                {
+                    Id = category.Id,
+                    Name = category.Name
+                };
+
+                return new ApiResult(Status.Ok, categoryModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
