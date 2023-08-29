@@ -86,5 +86,24 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ApiResult> BrandDetails([FromRoute] Guid id)
+        {
+            Brand? brand = await _brandRepository.FindByIdAsync(id);
+
+            if (brand != null)
+            {
+                BrandModel brandModel = new BrandModel()
+                {
+                    Id = brand.Id,
+                    Name = brand.Name
+                };
+
+                return new ApiResult(Status.Ok, brandModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
