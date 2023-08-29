@@ -26,11 +26,11 @@ namespace ComputerStore.Database.Entities
         [Required]
         public int Price { get; set; }
 
-
         public int? OfferedPrice { get; set; }
 
         [Required]
         public int Quantity { get; set; }
+
 
         public Category Category { get; set; }
         public Brand Brand { get; set; }
