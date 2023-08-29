@@ -72,5 +72,20 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ApiResult> ProductDetails([FromRoute] Guid id)
+        {
+            Product? product = await _productRepository.FindByIdAsync(id);
+
+            if (product != null)
+            {
+                ProductModel productModel = product;
+
+                return new ApiResult(Status.Ok, productModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
