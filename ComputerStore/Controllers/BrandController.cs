@@ -51,5 +51,26 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult> EditBrand([FromRoute] Guid id, [FromBody] BrandModel brandModel)
+        {
+            Brand brand = new Brand()
+            {
+                Id = id,
+                Name = brandModel.Name
+            };
+
+            _brandRepository.Update(brand);
+
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok, new BrandModel() { Id = id, Name = brandModel.Name });
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
