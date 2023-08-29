@@ -24,18 +24,7 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetProducts()
         {
-            List<ProductModel> products = (await _productRepository.GetAllAsync()).Select(product => new ProductModel()
-            {
-                Id = product.Id,
-                CategoryId = product.CategoryId,
-                BrandId = product.BrandId,
-                Title = product.Title,
-                Summary = product.Summary,
-                Warranty = product.Warranty,
-                Price = product.Price,
-                OfferedPrice = product.OfferedPrice,
-                Quantity = product.Quantity
-            }).ToList();
+            List<ProductModel> products = (await _productRepository.GetAllAsync()).Select<Product, ProductModel>(product => product).ToList();
 
             return new ApiResult(Status.Ok, products);
         }
