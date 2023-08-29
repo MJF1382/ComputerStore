@@ -20,5 +20,17 @@ namespace ComputerStore.Controllers
             _unitOfWork = unitOfWork;
             _brandRepository = _unitOfWork.RepositoryBase<Brand>();
         }
+
+        [HttpGet]
+        public async Task<ApiResult> GetBrands()
+        {
+            List<BrandModel> brands = (await _brandRepository.GetAllAsync()).Select(brand => new BrandModel()
+            {
+                Id = brand.Id,
+                Name = brand.Name
+            }).ToList();
+
+            return new ApiResult(Status.Ok, brands);
+        }
     }
 }
