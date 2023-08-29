@@ -24,7 +24,7 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetCategories()
         {
-            List<CategoryModel> categories = _categoryRepository.GetAllAsync().Result.Select(category => new CategoryModel()
+            List<CategoryModel> categories = (await _categoryRepository.GetAllAsync()).Select(category => new CategoryModel()
             {
                 Id = category.Id,
                 Name = category.Name
@@ -47,6 +47,27 @@ namespace ComputerStore.Controllers
             if (result)
             {
                 return new ApiResult(Status.Created, categoryModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult> EditCategory([FromRoute] Guid id, [FromBody] CategoryModel categoryModel)
+        {
+            Category category = new Category()
+            {
+                Id = id,
+                Name = categoryModel.Name
+            };
+
+            _categoryRepository.Update(category);
+
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok, new CategoryModel() { Id = id, Name = categoryModel.Name });
             }
 
             return new ApiResult(Status.InternalServerError);
