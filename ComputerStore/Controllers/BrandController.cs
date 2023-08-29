@@ -32,5 +32,24 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.Ok, brands);
         }
+
+        [HttpPost]
+        public async Task<ApiResult> AddBrand([FromBody] BrandModel brandModel)
+        {
+            await _brandRepository.AddAsync(new Brand()
+            {
+                Id = brandModel.Id,
+                Name = brandModel.Name
+            });
+
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Created, brandModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
