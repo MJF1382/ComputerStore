@@ -24,11 +24,7 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetCategories()
         {
-            List<CategoryModel> categories = (await _categoryRepository.GetAllAsync()).Select(category => new CategoryModel()
-            {
-                Id = category.Id,
-                Name = category.Name
-            }).ToList();
+            List<CategoryModel> categories = (await _categoryRepository.GetAllAsync()).Select<Category, CategoryModel>(p => p).ToList();
 
             return new ApiResult(Status.Ok, categories);
         }
@@ -36,12 +32,7 @@ namespace ComputerStore.Controllers
         [HttpPost]
         public async Task<ApiResult> AddCategory([FromBody] CategoryModel categoryModel)
         {
-            await _categoryRepository.AddAsync(new Category()
-            {
-                Id = categoryModel.Id,
-                Name = categoryModel.Name
-            });
-
+            await _categoryRepository.AddAsync(categoryModel);
             bool result = await _unitOfWork.Save();
 
             if (result)
@@ -55,19 +46,14 @@ namespace ComputerStore.Controllers
         [HttpPut("{id}")]
         public async Task<ApiResult> EditCategory([FromRoute] Guid id, [FromBody] CategoryModel categoryModel)
         {
-            Category category = new Category()
-            {
-                Id = id,
-                Name = categoryModel.Name
-            };
+            categoryModel.Id = id;
 
-            _categoryRepository.Update(category);
-
+            _categoryRepository.Update(categoryModel);
             bool result = await _unitOfWork.Save();
 
             if (result)
             {
-                return new ApiResult(Status.Ok, new CategoryModel() { Id = id, Name = categoryModel.Name });
+                return new ApiResult(Status.Ok, categoryModel);
             }
 
             return new ApiResult(Status.InternalServerError);
@@ -94,11 +80,7 @@ namespace ComputerStore.Controllers
 
             if (category != null)
             {
-                CategoryModel categoryModel = new CategoryModel()
-                {
-                    Id = category.Id,
-                    Name = category.Name
-                };
+                CategoryModel categoryModel = category;
 
                 return new ApiResult(Status.Ok, categoryModel);
             }
