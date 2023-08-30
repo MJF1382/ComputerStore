@@ -9,8 +9,6 @@ namespace ComputerStore.Database
     {
         public static void MapIds(this ModelBuilder modelBuilder)
         {
-            var d = modelBuilder.Entity<Product>();
-
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<Article>().HasKey(p => p.Id);
             modelBuilder.Entity<Category>().HasKey(p => p.Id);
