@@ -40,6 +40,9 @@ namespace ComputerStore.Models
 
         public DateTime PurchaseDateTime { get; set; }
 
+        [Required(ErrorMessage = "هیچ محصولی در سبد خرید شما وجود ندارد.")]
+        public List<Guid> ProductIds { get; set; }
+
         public static implicit operator PurchaseModel(Purchase purchase)
         {
             return new PurchaseModel()
