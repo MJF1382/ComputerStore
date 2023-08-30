@@ -257,7 +257,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.ArticleTag", b =>
@@ -272,7 +272,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ArticleTags");
+                    b.ToTable("ArticleTags", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Brand", b =>
@@ -288,7 +288,7 @@ namespace ComputerStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Category", b =>
@@ -304,7 +304,7 @@ namespace ComputerStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Comment", b =>
@@ -355,7 +355,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.ExtraDetail", b =>
@@ -381,7 +381,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ExtraDetails");
+                    b.ToTable("ExtraDetails", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Product", b =>
@@ -425,7 +425,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.ProductPurchase", b =>
@@ -440,7 +440,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("PurchaseId");
 
-                    b.ToTable("ProductPurchases");
+                    b.ToTable("ProductPurchases", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Purchase", b =>
@@ -496,7 +496,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Purchases");
+                    b.ToTable("Purchases", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Tag", b =>
@@ -512,7 +512,7 @@ namespace ComputerStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tag", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.Ticket", b =>
@@ -553,7 +553,7 @@ namespace ComputerStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("ComputerStore.Database.Entities.AppRoleClaim", b =>
