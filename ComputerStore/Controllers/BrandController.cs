@@ -32,6 +32,8 @@ namespace ComputerStore.Controllers
         [HttpPost]
         public async Task<ApiResult> AddBrand([FromBody] BrandModel brandModel)
         {
+            brandModel.Id = Guid.NewGuid();
+
             await _brandRepository.AddAsync(brandModel);
             bool result = await _unitOfWork.Save();
 

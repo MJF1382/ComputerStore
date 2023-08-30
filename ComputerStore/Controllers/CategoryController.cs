@@ -32,6 +32,8 @@ namespace ComputerStore.Controllers
         [HttpPost]
         public async Task<ApiResult> AddCategory([FromBody] CategoryModel categoryModel)
         {
+            categoryModel.Id = Guid.NewGuid();
+
             await _categoryRepository.AddAsync(categoryModel);
             bool result = await _unitOfWork.Save();
 
