@@ -23,5 +23,11 @@ namespace ComputerStore.Controllers
             _userStore = userStore;
             _userManager = userManager;
         }
+
+        [HttpGet]
+        public async Task<ApiResult> GetUsers()
+        {
+            return new ApiResult(Status.Ok, await _userStore.GetUsersWithRolesAsync());
+        }
     }
 }
