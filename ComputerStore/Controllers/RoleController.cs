@@ -26,5 +26,20 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.Ok, roles);
         }
+
+        [HttpPost]
+        public async Task<ApiResult> AddRole([FromBody] RoleModel roleModel)
+        {
+            IdentityResult result = await _roleManager.CreateAsync(roleModel);
+
+            if (result.Succeeded)
+            {
+                roleModel = await _roleManager.FindByNameAsync(roleModel.Name);
+
+                return new ApiResult(Status.Created, roleModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
