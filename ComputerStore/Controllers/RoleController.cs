@@ -65,5 +65,40 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.NotFound);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ApiResult> DeleteResult([FromRoute] Guid id)
+        {
+            AppRole role = await _roleManager.FindByIdAsync(id.ToString());
+
+            if (role != null)
+            {
+                IdentityResult result = await _roleManager.DeleteAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return new ApiResult(Status.Ok);
+                }
+
+                return new ApiResult(Status.InternalServerError);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ApiResult> RoleDetails([FromRoute] Guid id)
+        {
+            AppRole role = await _roleManager.FindByIdAsync(id.ToString());
+
+            if (role != null)
+            {
+                RoleModel roleModel = role;
+
+                return new ApiResult(Status.Ok, roleModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
