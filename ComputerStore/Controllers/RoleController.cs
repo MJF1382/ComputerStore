@@ -41,5 +41,29 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult> EditRole([FromRoute] Guid id, [FromBody] RoleModel roleModel)
+        {
+            AppRole role = await _roleManager.FindByIdAsync(id.ToString());
+
+            if (role != null)
+            {
+                role.Name = roleModel.Name;
+
+                IdentityResult result = await _roleManager.UpdateAsync(role);
+
+                if (result.Succeeded)
+                {
+                    roleModel = role;
+
+                    return new ApiResult(Status.Ok, roleModel);
+                }
+
+                return new ApiResult(Status.InternalServerError);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
