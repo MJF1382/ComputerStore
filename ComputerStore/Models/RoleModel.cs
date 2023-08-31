@@ -1,10 +1,13 @@
 ﻿using ComputerStore.Database.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ComputerStore.Models
 {
     public class RoleModel
     {
         public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "نام نقش را وارد کنید.")]
         public string Name { get; set; }
 
         public static implicit operator RoleModel(AppRole role)
