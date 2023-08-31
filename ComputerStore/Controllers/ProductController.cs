@@ -32,6 +32,8 @@ namespace ComputerStore.Controllers
         [HttpPost]
         public async Task<ApiResult> AddProduct([FromBody] ProductModel productModel)
         {
+            productModel.Id = Guid.NewGuid();
+
             await _productRepository.AddAsync(productModel);
             bool result = await _unitOfWork.Save();
 
