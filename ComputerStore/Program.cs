@@ -12,7 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiResultFilterAttribute)));
 builder.Services.AddDbContext<ComputerStoreDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services
-    .AddIdentity<AppUser, AppRole>()
+    .AddIdentity<AppUser, AppRole>(options =>
+    {
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireNonAlphanumeric = false;
+    })
     .AddEntityFrameworkStores<ComputerStoreDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddTransient<IComputerStoreUserStore, ComputerStoreUserStore>();
