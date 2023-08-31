@@ -29,5 +29,32 @@ namespace ComputerStore.Controllers
         {
             return new ApiResult(Status.Ok, await _userStore.GetUsersWithRolesAsync());
         }
+
+        [HttpPost]
+        public async Task<ApiResult> AddUser([FromBody] UserModel userModel)
+        {
+            userModel.UserName = userModel.Email;
+
+            IdentityResult result = await _userManager.CreateAsync(userModel, userModel.Password);
+
+            if (result.Succeeded)
+            {
+                if (userModel.RoleIds.Count > 0)
+                {
+                    AppUser user = await _userManager.FindByNameAsync(userModel.UserName);
+
+                    result = await _userManager.AddToRolesAsync(user, userModel.RoleIds);
+
+                    if (result.Succeeded)
+                    {
+                        userModel = user;
+
+                        return new ApiResult(Status.Created, userModel);
+                    }
+                }
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
