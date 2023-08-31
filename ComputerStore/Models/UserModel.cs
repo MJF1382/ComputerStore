@@ -14,11 +14,11 @@ namespace ComputerStore.Models
         [Required(ErrorMessage = "تاریخ تولد خود را وارد کنید.")]
         public DateTime BirthDay { get; set; }
 
-        [Required(ErrorMessage = "تاریخ تولد خود را وارد کنید.")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "ایمیل خود را وارد کنید.")]
         public string Email { get; set; }
 
         public bool EmailConfirmed { get; set; }
@@ -58,7 +58,7 @@ namespace ComputerStore.Models
 
         public static implicit operator AppUser(UserModel userModel)
         {
-            return new UserModel()
+            return new AppUser()
             {
                 AccessFailedCount = userModel.AccessFailedCount,
                 BirthDay = userModel.BirthDay,
