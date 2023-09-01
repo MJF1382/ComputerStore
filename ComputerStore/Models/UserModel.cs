@@ -19,6 +19,7 @@ namespace ComputerStore.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "ایمیل خود را وارد کنید.")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "ایمیل وارد شده معتبر نیست.")]
         public string Email { get; set; }
 
         public bool EmailConfirmed { get; set; }
