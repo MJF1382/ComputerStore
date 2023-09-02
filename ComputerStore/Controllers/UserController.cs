@@ -73,5 +73,85 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError, null, errors);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult> EditUser([FromRoute] Guid id, [FromBody] UserModel userModel)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user != null)
+            {
+                List<string> errors = new List<string>();
+
+                userModel.Id = id;
+                userModel.UserName = userModel.Email;
+
+                user.FullName = userModel.FullName;
+                user.BirthDay = userModel.BirthDay;
+                user.Email = userModel.Email;
+                user.UserName = userModel.Email;
+                user.PhoneNumber = userModel.PhoneNumber;
+                user.EmailConfirmed = userModel.EmailConfirmed;
+                user.PhoneNumberConfirmed = userModel.PhoneNumberConfirmed;
+                user.TwoFactorEnabled = userModel.TwoFactorEnabled;
+                user.LockoutEnd = userModel.LockoutEnd;
+                user.LockoutEnabled = userModel.LockoutEnabled;
+                user.AccessFailedCount = userModel.AccessFailedCount;
+
+                IdentityResult result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    result = await _userManager.RemoveAllRolesAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        if (userModel.RoleIds.Count > 0)
+                        {
+                            result = await _userManager.AddToRolesAsync(user, userModel.RoleIds);
+
+                            if (result.Succeeded)
+                            {
+                                List<string> roleIds = userModel.RoleIds;
+
+                                userModel = user;
+                                userModel.RoleIds = roleIds;
+
+                                return new ApiResult(Status.Ok, userModel);
+                            }
+                            else
+                            {
+                                foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                                {
+                                    errors.Add(errorMessage);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return new ApiResult(Status.Ok, userModel);
+                        }
+                    }
+                    else
+                    {
+                        foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                        {
+                            errors.Add(errorMessage);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                    {
+                        errors.Add(errorMessage);
+                    }
+                }
+
+                return new ApiResult(Status.InternalServerError, null, errors);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
