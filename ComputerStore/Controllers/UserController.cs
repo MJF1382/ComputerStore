@@ -179,5 +179,31 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.NotFound);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ApiResult> DeleteUser([FromRoute] Guid id)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user != null)
+            {
+                List<string> errors = new List<string>();
+                IdentityResult result = await _userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return new ApiResult(Status.Ok);
+                }
+                else
+                {
+                    foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                    {
+                        errors.Add(errorMessage);
+                    }
+                }
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
