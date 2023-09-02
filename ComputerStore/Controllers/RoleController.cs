@@ -30,6 +30,7 @@ namespace ComputerStore.Controllers
         [HttpPost]
         public async Task<ApiResult> AddRole([FromBody] RoleModel roleModel)
         {
+            List<string> errors = new List<string>();
             IdentityResult result = await _roleManager.CreateAsync(roleModel);
 
             if (result.Succeeded)
@@ -38,8 +39,15 @@ namespace ComputerStore.Controllers
 
                 return new ApiResult(Status.Created, roleModel);
             }
+            else
+            {
+                foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                {
+                    errors.Add(errorMessage);
+                }
+            }
 
-            return new ApiResult(Status.InternalServerError);
+            return new ApiResult(Status.InternalServerError, null, errors);
         }
 
         [HttpPut("{id}")]
@@ -49,6 +57,7 @@ namespace ComputerStore.Controllers
 
             if (role != null)
             {
+                List<string> errors = new List<string>();
                 role.Name = roleModel.Name;
 
                 IdentityResult result = await _roleManager.UpdateAsync(role);
@@ -59,8 +68,15 @@ namespace ComputerStore.Controllers
 
                     return new ApiResult(Status.Ok, roleModel);
                 }
+                else
+                {
+                    foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                    {
+                        errors.Add(errorMessage);
+                    }
+                }
 
-                return new ApiResult(Status.InternalServerError);
+                return new ApiResult(Status.InternalServerError, null, errors);
             }
 
             return new ApiResult(Status.NotFound);
@@ -73,14 +89,22 @@ namespace ComputerStore.Controllers
 
             if (role != null)
             {
+                List<string> errors = new List<string>();
                 IdentityResult result = await _roleManager.DeleteAsync(role);
 
                 if (result.Succeeded)
                 {
                     return new ApiResult(Status.Ok);
                 }
+                else
+                {
+                    foreach (string errorMessage in result.Errors.Select(identityError => identityError.Description))
+                    {
+                        errors.Add(errorMessage);
+                    }
+                }
 
-                return new ApiResult(Status.InternalServerError);
+                return new ApiResult(Status.InternalServerError, null, errors);
             }
 
             return new ApiResult(Status.NotFound);
