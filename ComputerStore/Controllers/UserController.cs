@@ -205,5 +205,21 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.NotFound);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ApiResult> UserDetails([FromRoute] Guid id)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user != null)
+            {
+                UserModel userModel = user;
+                userModel.RoleIds = (await _userManager.GetRolesAsync(user)).ToList();
+
+                return new ApiResult(Status.Ok, userModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
