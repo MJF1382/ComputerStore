@@ -13,18 +13,16 @@ namespace ComputerStore.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepositoryBase<Product> _productRepository;
 
         public ProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _productRepository = _unitOfWork.RepositoryBase<Product>();
         }
 
         [HttpGet]
         public async Task<ApiResult> GetProducts()
         {
-            List<ProductModel> products = (await _productRepository.GetAllAsync()).Select<Product, ProductModel>(product => product).ToList();
+            List<ProductModel> products = (await _unitOfWork.ProductRepository.GetAllAsync()).Select<Product, ProductModel>(product => product).ToList();
 
             return new ApiResult(Status.Ok, products);
         }
@@ -34,7 +32,7 @@ namespace ComputerStore.Controllers
         {
             productModel.Id = Guid.NewGuid();
 
-            await _productRepository.AddAsync(productModel);
+            await _unitOfWork.ProductRepository.AddAsync(productModel);
             bool result = await _unitOfWork.Save();
 
             if (result)
@@ -50,7 +48,7 @@ namespace ComputerStore.Controllers
         {
             productModel.Id = id;
 
-            _productRepository.Update(productModel);
+            _unitOfWork.ProductRepository.Update(productModel);
             bool result = await _unitOfWork.Save();
 
             if (result)
@@ -64,7 +62,7 @@ namespace ComputerStore.Controllers
         [HttpDelete("{id}")]
         public async Task<ApiResult> DeleteProduct([FromRoute] Guid id)
         {
-            _productRepository.Delete(id);
+            _unitOfWork.ProductRepository.Delete(id);
             bool result = await _unitOfWork.Save();
 
             if (result)
@@ -78,7 +76,7 @@ namespace ComputerStore.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResult> ProductDetails([FromRoute] Guid id)
         {
-            Product? product = await _productRepository.FindByIdAsync(id);
+            Product? product = await _unitOfWork.ProductRepository.FindByIdAsync(id);
 
             if (product != null)
             {
