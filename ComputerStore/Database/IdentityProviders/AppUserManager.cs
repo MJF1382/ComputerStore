@@ -42,5 +42,10 @@ namespace ComputerStore.Database.IdentityProviders
 
             return await RemoveFromRolesAsync(user, roles);
         }
+
+        //public async Task<string> GetPassword(AppUser user)
+        //{
+        //    // From Here
+        //}
     }
 }
