@@ -1,7 +1,7 @@
 using ComputerStore.Classes;
 using ComputerStore.Database;
 using ComputerStore.Database.Entities;
-using ComputerStore.Database.IdentityStores;
+using ComputerStore.Database.IdentityProviders;
 using ComputerStore.Database.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -19,8 +19,8 @@ builder.Services
         options.Password.RequireNonAlphanumeric = false;
     })
     .AddEntityFrameworkStores<ComputerStoreDbContext>()
+    .AddUserManager<AppUserManager>()
     .AddDefaultTokenProviders();
-builder.Services.AddTransient<IComputerStoreUserStore, ComputerStoreUserStore>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
