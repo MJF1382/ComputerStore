@@ -10,10 +10,6 @@ namespace ComputerStore.Models
         [Required(ErrorMessage = "خریدار را وارد کنید.")]
         public Guid UserId { get; set; }
 
-        [Required(ErrorMessage = "نام و نام خانوادگی خود را وارد کنید.")]
-        [StringLength(100, ErrorMessage = "عنوان محصول یاید حداکثر 100 کاراکتر باشد.")]
-        public string FullName { get; set; }
-
         [StringLength(100, ErrorMessage = "نام شرکت یاید حداکثر 100 کاراکتر باشد.")]
         public string CompanyName { get; set; }
 
@@ -52,7 +48,6 @@ namespace ComputerStore.Models
                 City = purchase.City,
                 CompanyName = purchase.CompanyName,
                 Description = purchase.Description,
-                FullName = purchase.FullName,
                 Id = purchase.Id,
                 PostalCode = purchase.PostalCode,
                 Province = purchase.Province,
@@ -70,7 +65,6 @@ namespace ComputerStore.Models
                 City = purchase.City,
                 CompanyName = purchase.CompanyName,
                 Description = purchase.Description,
-                FullName = purchase.FullName,
                 Id = purchase.Id,
                 PostalCode = purchase.PostalCode,
                 Province = purchase.Province,

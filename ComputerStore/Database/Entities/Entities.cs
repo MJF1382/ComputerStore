@@ -206,10 +206,6 @@ namespace ComputerStore.Database.Entities
         [Required]
         public Guid UserId { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string FullName { get; set; }
-
         [StringLength(100)]
         public string CompanyName { get; set; }
 
