@@ -17,6 +17,7 @@ namespace ComputerStore.Database.UnitOfWork
         {
             return new RepositoryBase<TEntity, ComputerStoreDbContext>(_context);
         }
+        public IProductRepository ProductRepository => new ProductRepository(_context);
 
         public async Task BeginTransactionAsync()
         {
