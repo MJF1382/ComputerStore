@@ -1,6 +1,7 @@
 ﻿using ComputerStore.Classes;
 using ComputerStore.Database.Entities;
 using ComputerStore.Database.IdentityProviders;
+using ComputerStore.Database.UnitOfWork;
 using ComputerStore.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +14,12 @@ namespace ComputerStore.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppUserManager _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(AppUserManager userManager)
+        public UserController(AppUserManager userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -102,6 +105,29 @@ namespace ComputerStore.Controllers
 
                 if (result.Succeeded)
                 {
+                    await _unitOfWork.BeginTransactionAsync();
+
+                    try
+                    {
+                        await _userManager.RemovePasswordAsync(user);
+                        await _userManager.AddPasswordAsync(user, userModel.Password);
+
+                        string errorMessage = "";
+
+                        _unitOfWork.CommitTransaction(out errorMessage);
+
+                        if (errorMessage.HasValue())
+                        {
+                            errors.Add(errorMessage);
+                            return new ApiResult(Status.InternalServerError, null, errors);
+                        }
+                    }
+                    catch
+                    {
+                        await _unitOfWork.RollBackAsync();
+                        errors.Add("خطا در اتصال به سرور، لطفا بعدا دوباره امتحان کنید.");
+                    }
+
                     result = await _userManager.RemoveAllRolesAsync(user);
 
                     if (result.Succeeded)
