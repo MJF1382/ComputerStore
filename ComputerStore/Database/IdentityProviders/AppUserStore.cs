@@ -35,5 +35,12 @@ namespace ComputerStore.Database.IdentityProviders
 
             return userModels;
         }
+
+        public async Task<IdentityResult> RemoveAllRolesAsync(AppUser user)
+        {
+            List<string> roles = (await GetRolesAsync(user)).ToList();
+
+            return await RemoveFromRolesAsync(user, roles);
+        }
     }
 }
