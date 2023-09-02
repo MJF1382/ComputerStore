@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace ComputerStore.Database.IdentityProviders
 {
@@ -42,10 +43,5 @@ namespace ComputerStore.Database.IdentityProviders
 
             return await RemoveFromRolesAsync(user, roles);
         }
-
-        //public async Task<string> GetPassword(AppUser user)
-        //{
-        //    // From Here
-        //}
     }
 }
