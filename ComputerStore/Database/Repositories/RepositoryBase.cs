@@ -3,11 +3,11 @@ using System.Linq.Expressions;
 
 namespace ComputerStore.Database.Repositories
 {
-    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
+    public class RepositoryBase<TEntity, TContext> : IRepositoryBase<TEntity> where TEntity : class where TContext : DbContext
     {
-        private readonly DbContext _context;
+        protected readonly TContext _context;
 
-        public RepositoryBase(DbContext context)
+        public RepositoryBase(TContext context)
         {
             _context = context;
         }
