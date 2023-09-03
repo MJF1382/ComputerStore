@@ -57,5 +57,28 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.BadRequest, null, new List<string>() { "هیچ محصولی در سبد خرید شما وجود ندارد." });
         }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult> EditPurchase([FromRoute] Guid id, [FromBody] PurchaseModel purchaseModel)
+        {
+            purchaseModel.Id = id;
+
+            _unitOfWork.PurchaseRepository.Update(purchaseModel);
+            await _unitOfWork.PurchaseRepository.RemoveAllProductsFromPurchase(purchaseModel.Id);
+            await _productPurchaseRepository.AddRangeAsync(purchaseModel.ProductIds.Select(productId => new ProductPurchase()
+            {
+                ProductId = productId,
+                PurchaseId = id
+            }).ToList());
+
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok, purchaseModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
