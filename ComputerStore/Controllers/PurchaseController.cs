@@ -94,5 +94,21 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ApiResult> PurchaseDetails([FromRoute] Guid id)
+        {
+            Purchase? purchase = await _unitOfWork.PurchaseRepository.FindByIdAsync(id);
+
+            if (purchase != null)
+            {
+                PurchaseModel purchaseModel = purchase;
+                purchaseModel.ProductIds = (await _productPurchaseRepository.FindByConditionAsync(p => p.PurchaseId == id, productPurchase => productPurchase.Product)).Select(p => p.Product.Id).ToList();
+
+                return new ApiResult(Status.Ok, purchaseModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
