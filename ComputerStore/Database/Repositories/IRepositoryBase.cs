@@ -6,7 +6,7 @@ namespace ComputerStore.Database.Repositories
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> FindByIdAsync(object id);
-        Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> condition);
+        Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>>? include = null);
         Task AddAsync(TEntity entity);
         Task AddRangeAsync(List<TEntity> entities);
         void Update(TEntity entity);

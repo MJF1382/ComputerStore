@@ -22,8 +22,13 @@ namespace ComputerStore.Database.Repositories
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> condition)
+        public virtual async Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>>? include = null)
         {
+            if (include != null)
+            {
+                return await _context.Set<TEntity>().Where(condition).Include(include).ToListAsync();
+            }
+
             return await _context.Set<TEntity>().Where(condition).ToListAsync();
         }
 
