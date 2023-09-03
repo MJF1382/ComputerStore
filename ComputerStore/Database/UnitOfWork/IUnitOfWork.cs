@@ -6,6 +6,7 @@ namespace ComputerStore.Database.UnitOfWork
     {
         IRepositoryBase<TEntity> RepositoryBase<TEntity>() where TEntity : class;
         IProductRepository ProductRepository { get; }
+        IPurchaseRepository PurchaseRepository { get; }
 
         Task BeginTransactionAsync();
         void CommitTransaction(out string errorMessage);
