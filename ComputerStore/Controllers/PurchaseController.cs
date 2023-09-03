@@ -13,20 +13,18 @@ namespace ComputerStore.Controllers
     public class PurchaseController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepositoryBase<Purchase> _purchaseRepository;
+        private readonly IRepositoryBase<ProductPurchase> _productPurchaseRepository;
 
         public PurchaseController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _purchaseRepository = _unitOfWork.RepositoryBase<Purchase>();
+            _productPurchaseRepository = _unitOfWork.RepositoryBase<ProductPurchase>();
         }
 
         [HttpGet]
         public async Task<ApiResult> GetPurchases()
         {
-            List<PurchaseModel> purchases = (await _purchaseRepository.GetAllAsync()).Select<Purchase, PurchaseModel>(purchase => purchase).ToList();
-
-            return new ApiResult(Status.Ok, purchases);
+            return new ApiResult(Status.Ok, await _unitOfWork.PurchaseRepository.GetAllPurchasesAsync());
         }
     }
 }
