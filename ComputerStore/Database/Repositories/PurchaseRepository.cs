@@ -10,6 +10,29 @@ namespace ComputerStore.Database.Repositories
         {
         }
 
+        public override void Delete(Purchase entity)
+        {
+            base.Delete(entity);
+
+            List<ProductPurchase> productPurchases = _context.ProductPurchases.Where(p => p.PurchaseId == entity.Id).ToList();
+            _context.ProductPurchases.RemoveRange(productPurchases);
+            _context.Purchases.Remove(entity);
+        }
+
+        public override void Delete(object id)
+        {
+            base.Delete(id);
+
+            Purchase? purchase = FindByIdAsync(id).Result;
+
+            if (purchase != null)
+            {
+                List<ProductPurchase> productPurchases = _context.ProductPurchases.Where(p => p.PurchaseId == purchase.Id).ToList();
+                _context.ProductPurchases.RemoveRange(productPurchases);
+                _context.Purchases.Remove(purchase);
+            }
+        }
+
         public async Task<List<PurchaseModel>> GetAllPurchasesAsync()
         {
             List<PurchaseModel> purchaseModels = new List<PurchaseModel>();
@@ -24,6 +47,18 @@ namespace ComputerStore.Database.Repositories
             }
 
             return purchaseModels;
+        }
+
+        public async Task RemoveAllProductsFromPurchase(Guid id)
+        {
+            Purchase? purchaseFind = _context.Purchases.Include(p => p.ProductPurchases).ToList().Find(p => p.Id == id);
+
+            if (purchaseFind != null)
+            {
+                _context.ProductPurchases.RemoveRange(purchaseFind.ProductPurchases);
+            }
+
+            await Task.CompletedTask;
         }
     }
 }

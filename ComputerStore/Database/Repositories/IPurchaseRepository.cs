@@ -6,5 +6,6 @@ namespace ComputerStore.Database.Repositories
     public interface IPurchaseRepository : IRepositoryBase<Purchase>
     {
         Task<List<PurchaseModel>> GetAllPurchasesAsync();
+        Task RemoveAllProductsFromPurchase(Guid id);
     }
 }
