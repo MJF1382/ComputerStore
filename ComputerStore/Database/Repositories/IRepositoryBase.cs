@@ -8,7 +8,7 @@ namespace ComputerStore.Database.Repositories
         Task<TEntity?> FindByIdAsync(object id);
         Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> condition);
         Task AddAsync(TEntity entity);
-        Task AddRangeAsync(TEntity entity);
+        Task AddRangeAsync(List<TEntity> entities);
         void Update(TEntity entity);
         void Delete(TEntity entity);
         void Delete(object id);
