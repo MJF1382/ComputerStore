@@ -80,5 +80,19 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ApiResult> DeletePurchase([FromRoute] Guid id)
+        {
+            _unitOfWork.PurchaseRepository.Delete(id);
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
