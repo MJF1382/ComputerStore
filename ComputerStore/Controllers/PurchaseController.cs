@@ -26,5 +26,36 @@ namespace ComputerStore.Controllers
         {
             return new ApiResult(Status.Ok, await _unitOfWork.PurchaseRepository.GetAllPurchasesAsync());
         }
+
+        [HttpPost]
+        public async Task<ApiResult> AddPurchase([FromBody] PurchaseModel purchaseModel)
+        {
+            if (purchaseModel.ProductIds.Count > 0)
+            {
+                purchaseModel.Id = Guid.NewGuid();
+
+                await _unitOfWork.PurchaseRepository.AddAsync(purchaseModel);
+
+                foreach (Guid productId in purchaseModel.ProductIds)
+                {
+                    await _productPurchaseRepository.AddAsync(new ProductPurchase()
+                    {
+                        ProductId = productId,
+                        PurchaseId = purchaseModel.Id
+                    });
+                }
+
+                bool result = await _unitOfWork.Save();
+
+                if (result)
+                {
+                    return new ApiResult(Status.Created, purchaseModel);
+                }
+
+                return new ApiResult(Status.InternalServerError);
+            }
+
+            return new ApiResult(Status.BadRequest, null, new List<string>() { "هیچ محصولی در سبد خرید شما وجود ندارد." });
+        }
     }
 }
