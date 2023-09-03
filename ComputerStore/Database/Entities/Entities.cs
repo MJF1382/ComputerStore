@@ -47,6 +47,9 @@ namespace ComputerStore.Database.Entities
         [Required]
         public Guid PurchaseId { get; set; }
 
+        [Required]
+        public int Quantity { get; set; }
+
         public Product Product { get; set; }
         public Purchase Purchase { get; set; }
     }
