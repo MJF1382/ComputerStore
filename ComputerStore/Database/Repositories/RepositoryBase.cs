@@ -22,14 +22,44 @@ namespace ComputerStore.Database.Repositories
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>>? include = null)
+        public virtual async Task<IEnumerable<TEntity>> FindByConditionAsync(
+            Func<TEntity, bool>? condition = null,
+            Expression<Func<TEntity, object>>? include = null,
+            Func<TEntity, object>? orderBy = null,
+            bool isAscending = true,
+            int skip = 0,
+            int? take = null)
         {
+            List<TEntity> entites = await _context.Set<TEntity>().ToListAsync();
+
+            if (condition != null)
+            {
+                entites = entites.Where(condition).ToList();
+            }
+            if (orderBy != null)
+            {
+                if (isAscending)
+                {
+                    entites = entites.OrderBy(orderBy).ToList();
+                }
+                else
+                {
+                    entites = entites.OrderByDescending(orderBy).ToList();
+                }
+            }
             if (include != null)
             {
-                return await _context.Set<TEntity>().Where(condition).Include(include).ToListAsync();
+                entites = await entites.AsQueryable().Include(include).ToListAsync();
             }
 
-            return await _context.Set<TEntity>().Where(condition).ToListAsync();
+            entites = entites.Skip(skip).ToList();
+
+            if (take != null)
+            {
+                entites = entites.Take(take.Value).ToList();
+            }
+
+            return entites;
         }
 
         public virtual async Task AddAsync(TEntity entity)
