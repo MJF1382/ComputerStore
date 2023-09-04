@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/home")]
     [ApiController]
     public class HomeController : ControllerBase
     {
@@ -30,6 +30,23 @@ namespace ComputerStore.Controllers
         public async Task<ApiResult> LatestCustomersSatisfactions()
         {
             return new ApiResult(Status.Ok, await _satisfactionRepository.FindByConditionAsync(null, null, p => p.PublishDate, false, 0, 10));
+        }
+
+        [HttpGet("website-statistics")]
+        public async Task<ApiResult> GetWebSiteStatistics()
+        {
+            int satisfactedPeopleCount = (await _satisfactionRepository.GetAllAsync()).Count();
+            int experienceYears = DateTime.Now.Year - 2020;
+            int successPurchase = (await _unitOfWork.PurchaseRepository.GetAllAsync()).DistinctBy(p => p.UserId).Count();
+            int usersCount = (await _unitOfWork.RepositoryBase<AppUser>().GetAllAsync()).Count();
+
+            return new ApiResult(Status.Ok, new
+            {
+                SatisfactedPeopleCount = satisfactedPeopleCount,
+                ExperienceYears = experienceYears,
+                SuccessPurchase = successPurchase,
+                UsersCount = usersCount
+            });
         }
     }
 }
