@@ -11,7 +11,7 @@ namespace ComputerStore.Models
         public Guid UserId { get; set; }
 
         [Required(ErrorMessage = "امتیاز خود را وارد کنید.")]
-        public int Score { get; set; }
+        public float Score { get; set; }
 
         [Required(ErrorMessage = "متن نظر خود را وارد کنید.")]
         [StringLength(300, ErrorMessage = "متن نظر شما باید حداکثر 300 کاراکتر باشد.")]

@@ -177,7 +177,7 @@ namespace ComputerStore.Database.Entities
         public Guid? ArticleId { get; set; }
 
         [Required]
-        public int Score { get; set; }
+        public float Score { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -260,7 +260,7 @@ namespace ComputerStore.Database.Entities
         public Guid UserId { get; set; }
 
         [Required]
-        public int Score { get; set; }
+        public float Score { get; set; }
 
         [Required]
         [StringLength(300)]
