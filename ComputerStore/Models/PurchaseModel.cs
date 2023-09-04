@@ -37,7 +37,7 @@ namespace ComputerStore.Models
         public DateTime PurchaseDateTime { get; set; }
 
         [Required(ErrorMessage = "هیچ محصولی در سبد خرید شما وجود ندارد.")]
-        public List<Guid> ProductIds { get; set; }
+        public List<ProductPurchaseModel> ProductPurchases { get; set; }
 
         public static implicit operator PurchaseModel(Purchase purchase)
         {
@@ -52,24 +52,25 @@ namespace ComputerStore.Models
                 PostalCode = purchase.PostalCode,
                 Province = purchase.Province,
                 PurchaseDateTime = purchase.PurchaseDateTime,
-                UserId = purchase.UserId
+                UserId = purchase.UserId,
+                ProductPurchases = purchase.ProductPurchases.Select<ProductPurchase, ProductPurchaseModel>(productPurchase => productPurchase).ToList()
             };
         }
 
-        public static implicit operator Purchase(PurchaseModel purchase)
+        public static implicit operator Purchase(PurchaseModel purchaseModel)
         {
             return new Purchase()
             {
-                Address = purchase.Address,
-                Amount = purchase.Amount,
-                City = purchase.City,
-                CompanyName = purchase.CompanyName,
-                Description = purchase.Description,
-                Id = purchase.Id,
-                PostalCode = purchase.PostalCode,
-                Province = purchase.Province,
-                PurchaseDateTime = purchase.PurchaseDateTime,
-                UserId = purchase.UserId
+                Address = purchaseModel.Address,
+                Amount = purchaseModel.Amount,
+                City = purchaseModel.City,
+                CompanyName = purchaseModel.CompanyName,
+                Description = purchaseModel.Description,
+                Id = purchaseModel.Id,
+                PostalCode = purchaseModel.PostalCode,
+                Province = purchaseModel.Province,
+                PurchaseDateTime = purchaseModel.PurchaseDateTime,
+                UserId = purchaseModel.UserId
             };
         }
     }
