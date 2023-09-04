@@ -266,6 +266,9 @@ namespace ComputerStore.Database.Entities
         [StringLength(300)]
         public string Body { get; set; }
 
+        [Required]
+        public DateTime PublishDate { get; set; }
+
         public AppUser User { get; set; }
     }
 }
