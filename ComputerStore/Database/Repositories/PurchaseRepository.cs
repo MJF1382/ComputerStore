@@ -41,7 +41,6 @@ namespace ComputerStore.Database.Repositories
             foreach (Purchase purchase in purchases)
             {
                 PurchaseModel purchaseModel = purchase;
-                purchaseModel.ProductIds = purchase.ProductPurchases.Select(p => p.Product.Id).ToList();
 
                 purchaseModels.Add(purchaseModel);
             }
