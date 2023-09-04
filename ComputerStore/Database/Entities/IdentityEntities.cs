@@ -21,6 +21,7 @@ namespace ComputerStore.Database.Entities
         public virtual ICollection<Purchase> Purchases { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Satisfaction> Satisfactions { get; set; }
     }
 
     public class AppRole : IdentityRole<Guid>

@@ -251,4 +251,21 @@ namespace ComputerStore.Database.Entities
 
         public List<ArticleTag> ArticleTags { get; set; }
     }
+
+    public class Satisfaction
+    {
+        public Guid Id { get; set; }
+
+        [Required]
+        public Guid UserId { get; set; }
+
+        [Required]
+        public int Score { get; set; }
+
+        [Required]
+        [StringLength(300)]
+        public string Body { get; set; }
+
+        public AppUser User { get; set; }
+    }
 }
