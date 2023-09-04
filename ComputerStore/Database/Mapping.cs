@@ -117,6 +117,14 @@ namespace ComputerStore.Database
                 .HasForeignKey(p => p.PurchaseId);
         }
 
+        public static void MapSatisfaction(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Satisfaction>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Satisfactions)
+                .HasForeignKey(p => p.UserId);
+        }
+
 
         public static void MapDefaultIdentity(this ModelBuilder modelBuilder)
         {

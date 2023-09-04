@@ -30,6 +30,7 @@ namespace ComputerStore.Database
             modelBuilder.MapPurchase();
             modelBuilder.MapArticleTag();
             modelBuilder.MapProductPurchase();
+            modelBuilder.MapSatisfaction();
         }
 
         public DbSet<Product> Products { get; set; }
@@ -42,5 +43,6 @@ namespace ComputerStore.Database
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<ProductPurchase> ProductPurchases { get; set; }
         public DbSet<ArticleTag> ArticleTags { get; set; }
+        public DbSet<Satisfaction> Satisfactions { get; set; }
     }
 }
