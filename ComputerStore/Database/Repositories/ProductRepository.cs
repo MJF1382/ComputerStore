@@ -11,7 +11,7 @@ namespace ComputerStore.Database.Repositories
 
         }
 
-        public async Task<List<ProductModel>> GetBestSellingProductsAsync(int? productCount = null)
+        public async Task<List<ProductModel>> GetBestSellingProductsAsync(int? count = null)
         {
             var bestSellingProductPurchases = await (from product in _context.Products
                                                      join productPurchase in _context.ProductPurchases on product.Id equals productPurchase.ProductId
@@ -26,9 +26,9 @@ namespace ComputerStore.Database.Repositories
 
             List<ProductModel> bestSellingProduct = new List<ProductModel>();
 
-            if (productCount.HasValue)
+            if (count.HasValue)
             {
-                bestSellingProduct = bestSellingProductPurchases.SelectMany(productPurchases => productPurchases).Select(productPurchase => productPurchase.Product).DistinctBy(p => p.Id).ToList().Select<Product, ProductModel>(product => product).Take(productCount.Value).ToList();
+                bestSellingProduct = bestSellingProductPurchases.SelectMany(productPurchases => productPurchases).Select(productPurchase => productPurchase.Product).DistinctBy(p => p.Id).ToList().Select<Product, ProductModel>(product => product).Take(count.Value).ToList();
             }
             else
             {
