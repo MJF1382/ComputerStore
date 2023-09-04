@@ -12,6 +12,8 @@ namespace ComputerStore.Database.Entities
         [Required]
         public DateTime BirthDay { get; set; }
 
+        public byte[]? ProfileImage { get; set; }
+
 
         public virtual ICollection<AppUserClaim> Claims { get; set; }
         public virtual ICollection<AppUserLogin> Logins { get; set; }

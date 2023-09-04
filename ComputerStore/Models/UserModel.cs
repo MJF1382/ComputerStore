@@ -38,6 +38,8 @@ namespace ComputerStore.Models
 
         public List<string> RoleIds { get; set; }
 
+        public byte[]? ProfileImage { get; set; }
+
         public static implicit operator UserModel(AppUser user)
         {
             return new UserModel()
@@ -53,7 +55,8 @@ namespace ComputerStore.Models
                 PhoneNumber = user.PhoneNumber,
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
-                UserName = user.UserName
+                UserName = user.UserName,
+                ProfileImage = user.ProfileImage
             };
         }
 
@@ -72,7 +75,8 @@ namespace ComputerStore.Models
                 PhoneNumber = userModel.PhoneNumber,
                 PhoneNumberConfirmed = userModel.PhoneNumberConfirmed,
                 TwoFactorEnabled = userModel.TwoFactorEnabled,
-                UserName = userModel.UserName
+                UserName = userModel.UserName,
+                ProfileImage = userModel.ProfileImage
             };
         }
     }
