@@ -43,5 +43,14 @@ namespace ComputerStore.Controllers
                 .Select<Category, CategoryModel>(category => category)
                 .ToList());
         }
+
+        [HttpGet("brands")]
+        public async Task<ApiResult> GetBrands()
+        {
+            return new ApiResult(Status.Ok,
+                (await _unitOfWork.RepositoryBase<Brand>().FindByConditionAsync(null, null, p => p.Name))
+                .Select<Brand, BrandModel>(brand => brand)
+                .ToList());
+        }
     }
 }
