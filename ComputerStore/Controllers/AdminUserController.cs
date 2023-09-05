@@ -11,12 +11,12 @@ namespace ComputerStore.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AdminUserController : ControllerBase
     {
         private readonly AppUserManager _userManager;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(AppUserManager userManager, IUnitOfWork unitOfWork)
+        public AdminUserController(AppUserManager userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
