@@ -10,11 +10,11 @@ namespace ComputerStore.Controllers
 {
     [Route("api/products")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class AdminProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public AdminProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
