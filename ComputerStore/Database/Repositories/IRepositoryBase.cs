@@ -7,9 +7,9 @@ namespace ComputerStore.Database.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> FindByIdAsync(object id);
         Task<IEnumerable<TEntity>> FindByConditionAsync(
-            Func<TEntity, bool>? condition = null,
-            Expression<Func<TEntity, object>>? include = null,
-            Func<TEntity, object>? orderBy = null,
+            Expression<Func<TEntity, bool>>? condition = null,
+            Expression<Func<TEntity, object>>[]? includes = null,
+            Expression<Func<TEntity, object>>? orderBy = null,
             bool isAscending = true,
             int skip = 0,
             int? take = null);

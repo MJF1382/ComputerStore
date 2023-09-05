@@ -23,40 +23,43 @@ namespace ComputerStore.Database.Repositories
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindByConditionAsync(
-            Func<TEntity, bool>? condition = null,
-            Expression<Func<TEntity, object>>? include = null,
-            Func<TEntity, object>? orderBy = null,
+            Expression<Func<TEntity, bool>>? condition = null,
+            Expression<Func<TEntity, object>>[]? includes = null,
+            Expression<Func<TEntity, object>>? orderBy = null,
             bool isAscending = true,
             int skip = 0,
             int? take = null)
         {
-            List<TEntity> entites = await _context.Set<TEntity>().ToListAsync();
+            IQueryable<TEntity> entites = _context.Set<TEntity>();
 
             if (condition != null)
             {
-                entites = entites.Where(condition).ToList();
+                entites = entites.Where(condition);
+            }
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    entites = entites.Include(include);
+                }
             }
             if (orderBy != null)
             {
                 if (isAscending)
                 {
-                    entites = entites.OrderBy(orderBy).ToList();
+                    entites = entites.OrderBy(orderBy);
                 }
                 else
                 {
-                    entites = entites.OrderByDescending(orderBy).ToList();
+                    entites = entites.OrderByDescending(orderBy);
                 }
             }
-            if (include != null)
-            {
-                entites = await entites.AsQueryable().Include(include).ToListAsync();
-            }
 
-            entites = entites.Skip(skip).ToList();
+            entites = entites.Skip(skip);
 
             if (take != null)
             {
-                entites = entites.Take(take.Value).ToList();
+                entites = entites.Take(take.Value);
             }
 
             return entites;
