@@ -34,5 +34,14 @@ namespace ComputerStore.Controllers
         {
             return new ApiResult(Status.Ok, await _unitOfWork.ProductRepository.FindByConditionAsync(null, null, p => p.Price));
         }
+
+        [HttpGet("categories")]
+        public async Task<ApiResult> GetCategories()
+        {
+            return new ApiResult(Status.Ok,
+                (await _unitOfWork.RepositoryBase<Category>().FindByConditionAsync(null, null, p => p.Name))
+                .Select<Category, CategoryModel>(category => category)
+                .ToList());
+        }
     }
 }
