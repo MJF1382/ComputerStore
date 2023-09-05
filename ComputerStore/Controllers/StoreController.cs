@@ -28,5 +28,11 @@ namespace ComputerStore.Controllers
         {
             return new ApiResult(Status.Ok, await _unitOfWork.ProductRepository.FindByConditionAsync(null, null, p => p.Price, false));
         }
+
+        [HttpGet("cheapest")]
+        public async Task<ApiResult> CheapestProducts()
+        {
+            return new ApiResult(Status.Ok, await _unitOfWork.ProductRepository.FindByConditionAsync(null, null, p => p.Price));
+        }
     }
 }
