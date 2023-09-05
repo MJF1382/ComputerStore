@@ -170,9 +170,7 @@ namespace ComputerStore.Database.Entities
         [Required]
         public Guid UserId { get; set; }
 
-
         public Guid? ProductId { get; set; }
-
 
         public Guid? ArticleId { get; set; }
 
