@@ -22,5 +22,11 @@ namespace ComputerStore.Controllers
         {
             return new ApiResult(Status.Ok, await _unitOfWork.ProductRepository.GetBestSellingProductsAsync());
         }
+
+        [HttpGet("most-expensive")]
+        public async Task<ApiResult> MostExpensiveProducts()
+        {
+            return new ApiResult(Status.Ok, await _unitOfWork.ProductRepository.FindByConditionAsync(null, null, p => p.Price, false));
+        }
     }
 }
