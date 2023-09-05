@@ -10,11 +10,11 @@ namespace ComputerStore.Controllers
 {
     [Route("api/roles")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class AdminRoleController : ControllerBase
     {
         private readonly RoleManager<AppRole> _roleManager;
 
-        public RoleController(RoleManager<AppRole> roleManager)
+        public AdminRoleController(RoleManager<AppRole> roleManager)
         {
             _roleManager = roleManager;
         }
