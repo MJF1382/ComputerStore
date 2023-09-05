@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerStore.Controllers
 {
-    [Route("api/users")]
+    [Route("api/admin/users")]
     [ApiController]
     public class AdminUserController : ControllerBase
     {

@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace ComputerStore.Controllers
 {
-    [Route("api/purchases")]
+    [Route("api/admin/purchases")]
     [ApiController]
     public class AdminPurchaseController : ControllerBase
     {

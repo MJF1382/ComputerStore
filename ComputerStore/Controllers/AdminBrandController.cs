@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerStore.Controllers
 {
-    [Route("api/brands")]
+    [Route("api/admin/brands")]
     [ApiController]
     public class AdminBrandController : ControllerBase
     {

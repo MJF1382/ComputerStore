@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ComputerStore.Controllers
 {
-    [Route("api/roles")]
+    [Route("api/admin/roles")]
     [ApiController]
     public class AdminRoleController : ControllerBase
     {
