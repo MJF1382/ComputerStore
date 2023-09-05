@@ -10,12 +10,12 @@ namespace ComputerStore.Controllers
 {
     [Route("api/purchases")]
     [ApiController]
-    public class PurchaseController : ControllerBase
+    public class AdminPurchaseController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepositoryBase<ProductPurchase> _productPurchaseRepository;
 
-        public PurchaseController(IUnitOfWork unitOfWork)
+        public AdminPurchaseController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _productPurchaseRepository = _unitOfWork.RepositoryBase<ProductPurchase>();
