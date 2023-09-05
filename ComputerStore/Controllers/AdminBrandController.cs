@@ -10,12 +10,12 @@ namespace ComputerStore.Controllers
 {
     [Route("api/brands")]
     [ApiController]
-    public class BrandController : ControllerBase
+    public class AdminBrandController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepositoryBase<Brand> _brandRepository;
 
-        public BrandController(IUnitOfWork unitOfWork)
+        public AdminBrandController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _brandRepository = _unitOfWork.RepositoryBase<Brand>();
