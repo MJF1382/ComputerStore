@@ -4,6 +4,7 @@ using ComputerStore.Database.Repositories;
 using ComputerStore.Database.UnitOfWork;
 using ComputerStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace ComputerStore.Controllers
 {
@@ -93,7 +94,7 @@ namespace ComputerStore.Controllers
         [HttpGet("{id}")]
         public async Task<ApiResult> PurchaseDetails([FromRoute] Guid id)
         {
-            Purchase? purchase = (await _unitOfWork.PurchaseRepository.FindByConditionAsync(p => p.Id == id, p => p.ProductPurchases)).FirstOrDefault();
+            Purchase? purchase = (await _unitOfWork.PurchaseRepository.FindByConditionAsync(p => p.Id == id, new Expression<Func<Purchase, object>>[] { p => p.ProductPurchases })).FirstOrDefault();
 
             if (purchase != null)
             {
