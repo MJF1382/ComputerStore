@@ -10,12 +10,12 @@ namespace ComputerStore.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class AdminCategoryController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepositoryBase<Category> _categoryRepository;
 
-        public CategoryController(IUnitOfWork unitOfWork)
+        public AdminCategoryController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _categoryRepository = _unitOfWork.RepositoryBase<Category>();
