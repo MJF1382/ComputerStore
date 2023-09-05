@@ -16,5 +16,11 @@ namespace ComputerStore.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
+        [HttpGet("most-popular")]
+        public async Task<ApiResult> MostPopularProducts()
+        {
+            return new ApiResult(Status.Ok, await _unitOfWork.ProductRepository.GetBestSellingProductsAsync());
+        }
     }
 }
