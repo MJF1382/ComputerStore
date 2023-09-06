@@ -53,7 +53,7 @@ namespace ComputerStore.Models
                 Province = purchase.Province,
                 PurchaseDateTime = purchase.PurchaseDateTime,
                 UserId = purchase.UserId,
-                ProductPurchases = purchase.ProductPurchases.Select<ProductPurchase, ProductPurchaseModel>(productPurchase => productPurchase).ToList()
+                ProductPurchases = purchase.ProductPurchases != null ? purchase.ProductPurchases.Select<ProductPurchase, ProductPurchaseModel>(productPurchase => productPurchase).ToList() : new List<ProductPurchaseModel>()
             };
         }
 

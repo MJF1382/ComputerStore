@@ -23,7 +23,7 @@ namespace ComputerStore.Models
         [Required(ErrorMessage = "محتوای مقاله را وارد کنید.")]
         public DateTime PublishDateTime { get; set; }
 
-        public List<CommentModel> Comments { get; set; }
+        public List<Guid>? CommentIds { get; set; }
 
         public static implicit operator ArticleModel(Article article)
         {
@@ -35,7 +35,7 @@ namespace ComputerStore.Models
                 PublishDateTime = article.PublishDateTime,
                 Title = article.Title,
                 UserId = article.UserId,
-                Comments = article.Comments != null ? article.Comments.Select<Comment, CommentModel>(comment => comment).ToList() : new List<CommentModel>()
+                CommentIds = article.Comments != null ? article.Comments.Select(comment => comment.Id).ToList() : null
             };
         }
 
