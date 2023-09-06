@@ -4,6 +4,7 @@ using ComputerStore.Database.Repositories;
 using ComputerStore.Database.UnitOfWork;
 using ComputerStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ComputerStore.Controllers
@@ -24,7 +25,14 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetPurchases()
         {
-            return new ApiResult(Status.Ok, await _unitOfWork.PurchaseRepository.GetAllPurchasesAsync());
+            List<PurchaseModel> purchases = (await _unitOfWork.PurchaseRepository.FindByConditionAsync(
+                null,
+                new Expression<Func<Purchase, object>>[]
+                {
+                    p => p.ProductPurchases
+                })).Select<Purchase, PurchaseModel>(purchase => purchase).ToList();
+
+            return new ApiResult(Status.Ok, purchases);
         }
 
         [HttpPost]
@@ -99,7 +107,7 @@ namespace ComputerStore.Controllers
             if (purchase != null)
             {
                 PurchaseModel purchaseModel = purchase;
-                
+
                 return new ApiResult(Status.Ok, purchaseModel);
             }
 

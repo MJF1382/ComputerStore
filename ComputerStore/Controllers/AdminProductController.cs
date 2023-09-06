@@ -22,9 +22,9 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetProducts()
         {
-            List<ProductModel> products = (await _unitOfWork.ProductRepository.GetAllAsync()).Select<Product, ProductModel>(product => product).ToList();
-
-            return new ApiResult(Status.Ok, products);
+            return new ApiResult(Status.Ok, 
+                (await _unitOfWork.ProductRepository.GetAllAsync())
+                .Select<Product, ProductModel>(product => product).ToList());
         }
 
         [HttpPost]
