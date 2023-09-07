@@ -204,8 +204,15 @@ namespace ComputerStore.Controllers
             if (article != null)
             {
                 ArticleModel articleModel = article;
+                List<CommentModel> comments = articleModel.Comments;
 
-                return new ApiResult(Status.Ok, articleModel);
+                articleModel.Comments = null;
+
+                return new ApiResult(Status.Ok, new
+                {
+                    Article = articleModel,
+                    Comments = comments
+                });
             }
 
             return new ApiResult(Status.NotFound);
