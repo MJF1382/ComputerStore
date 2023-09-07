@@ -26,7 +26,7 @@ namespace ComputerStore.Controllers
             _articleRepository = _unitOfWork.RepositoryBase<Article>();
         }
 
-        [HttpGet]
+        [HttpGet("index")]
         public async Task<ApiResult> GetIndexData()
         {
             int satisfactedPeopleCount = (await _satisfactionRepository.GetAllAsync()).Count();
@@ -59,6 +59,33 @@ namespace ComputerStore.Controllers
                 LatestCustomersSatisfactions = latestCustomersSatisfactions,
                 WebSiteStatistics = webSiteStatistics,
                 LatestArticles = latestArticles
+            });
+        }
+
+        [HttpGet("store")]
+        public async Task<ApiResult> GetStoreData()
+        {
+            var mostPopularProducts = await _unitOfWork.ProductRepository.GetBestSellingProductsAsync();
+            var mostExpensiveProducts = (await _unitOfWork.ProductRepository.FindByConditionAsync(null, null, p => p.Price, false))
+                .Select<Product, ProductModel>(product => product)
+                .ToList();
+            var cheapestProducts = (await _unitOfWork.ProductRepository.FindByConditionAsync(null, null, p => p.Price))
+                .Select<Product, ProductModel>(product => product)
+                .ToList();
+            var categories = (await _unitOfWork.RepositoryBase<Category>().FindByConditionAsync(null, null, p => p.Name))
+                .Select<Category, CategoryModel>(category => category)
+                .ToList();
+            var brands = (await _unitOfWork.RepositoryBase<Brand>().FindByConditionAsync(null, null, p => p.Name))
+                .Select<Brand, BrandModel>(brand => brand)
+                .ToList();
+
+            return new ApiResult(Status.Ok, new
+            {
+                MostPopularProducts = mostPopularProducts,
+                MostExpensiveProducts = mostExpensiveProducts,
+                CheapestProducts = cheapestProducts,
+                Categories = categories,
+                Brands = brands
             });
         }
     }
