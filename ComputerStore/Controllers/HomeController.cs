@@ -168,5 +168,23 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpGet("blog")]
+        public async Task<ApiResult> GetBlogData()
+        {
+            List<ArticleModel> articleModels = (await _articleRepository.FindByConditionAsync(
+                null,
+                new Expression<Func<Article, object>>[]
+                {
+                    p => p.Category,
+                    p => p.User,
+                    p => p.ArticleTags,
+                    p => p.Comments
+                }))
+                .Select<Article, ArticleModel>(article => article)
+                .ToList();
+
+            return new ApiResult(Status.Ok, articleModels);
+        }
     }
 }
