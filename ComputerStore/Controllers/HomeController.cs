@@ -105,10 +105,14 @@ namespace ComputerStore.Controllers
             if (product != null)
             {
                 ProductModel productModel = product;
+                List<CommentModel>? comments = productModel.Comments;
+
+                productModel.Comments = null;
 
                 return new ApiResult(Status.Ok, new
                 {
-                    Product = productModel
+                    Product = productModel,
+                    Comments = comments
                 });
             }
 
