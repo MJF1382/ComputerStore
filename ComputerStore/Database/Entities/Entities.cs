@@ -142,6 +142,21 @@ namespace ComputerStore.Database.Entities
 
         [Required]
         [StringLength(100)]
+        public string Subject { get; set; }
+
+        [Required]
+        [StringLength(1000)]
+        public string Body { get; set; }
+
+        public AppUser User { get; set; }
+    }
+
+    public class Feedback
+    {
+        public Guid Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string FullName { get; set; }
 
         [Required]
@@ -159,8 +174,6 @@ namespace ComputerStore.Database.Entities
         [Required]
         [StringLength(1000)]
         public string Body { get; set; }
-
-        public AppUser User { get; set; }
     }
 
     public class Comment

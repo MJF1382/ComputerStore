@@ -15,6 +15,7 @@ namespace ComputerStore.Database
             modelBuilder.Entity<Brand>().HasKey(p => p.Id);
             modelBuilder.Entity<ExtraDetail>().HasKey(p => p.Id);
             modelBuilder.Entity<Ticket>().HasKey(p => p.Id);
+            modelBuilder.Entity<Feedback>().HasKey(p => p.Id);
             modelBuilder.Entity<Comment>().HasKey(p => p.Id);
             modelBuilder.Entity<Purchase>().HasKey(p => p.Id);
             modelBuilder.Entity<ProductPurchase>().HasKey(p => new { p.ProductId, p.PurchaseId });

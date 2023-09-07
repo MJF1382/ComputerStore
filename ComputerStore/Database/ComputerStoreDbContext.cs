@@ -39,6 +39,7 @@ namespace ComputerStore.Database
         public DbSet<Brand> Brands { get; set; }
         public DbSet<ExtraDetail> ExtraDetails { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<ProductPurchase> ProductPurchases { get; set; }
