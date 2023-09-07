@@ -106,13 +106,23 @@ namespace ComputerStore.Controllers
             {
                 ProductModel productModel = product;
                 List<CommentModel>? comments = productModel.Comments;
+                List<ProductModel> relatedPosts = (await _unitOfWork.ProductRepository.FindByConditionAsync(
+                    p => p.CategoryId == productModel.CategoryId && p.Id != productModel.Id,
+                    null,
+                    null,
+                    true,
+                    0,
+                    10))
+                    .Select<Product, ProductModel>(product => product)
+                    .ToList();
 
                 productModel.Comments = null;
 
                 return new ApiResult(Status.Ok, new
                 {
                     Product = productModel,
-                    Comments = comments
+                    Comments = comments,
+                    RelatedPosts = relatedPosts
                 });
             }
 
