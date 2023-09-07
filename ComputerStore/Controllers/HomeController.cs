@@ -18,12 +18,14 @@ namespace ComputerStore.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepositoryBase<Satisfaction> _satisfactionRepository;
         private readonly IRepositoryBase<Article> _articleRepository;
+        private readonly IRepositoryBase<Comment> _commentRepository;
 
         public HomeController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _satisfactionRepository = _unitOfWork.RepositoryBase<Satisfaction>();
             _articleRepository = _unitOfWork.RepositoryBase<Article>();
+            _commentRepository = _unitOfWork.RepositoryBase<Comment>();
         }
 
         [HttpGet("index")]
@@ -124,6 +126,29 @@ namespace ComputerStore.Controllers
                     Comments = comments,
                     RelatedPosts = relatedPosts
                 });
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
+
+        [HttpPost("product/{productId}/comments")]
+        public async Task<ApiResult> SendCommentToProduct([FromRoute] Guid productId, [FromBody] CommentModel commentModel)
+        {
+            if (await _unitOfWork.ProductRepository.FindByIdAsync(productId) is Product)
+            {
+                commentModel.Id = Guid.NewGuid();
+                commentModel.ProductId = productId;
+                commentModel.PublishDateTime = DateTime.Now;
+
+                await _commentRepository.AddAsync(commentModel);
+                bool result = await _unitOfWork.Save();
+
+                if (result)
+                {
+                    return new ApiResult(Status.Created, commentModel);
+                }
+
+                return new ApiResult(Status.InternalServerError);
             }
 
             return new ApiResult(Status.NotFound);
