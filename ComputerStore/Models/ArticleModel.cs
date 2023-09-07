@@ -23,25 +23,46 @@ namespace ComputerStore.Models
         [Required(ErrorMessage = "محتوای مقاله را وارد کنید.")]
         public DateTime PublishDateTime { get; set; }
 
-        public List<Guid>? CommentIds { get; set; }
+        public CategoryModel? Category { get; set; }
+        public UserModel? User { get; set; }
+        public List<ArticleTagModel>? ArticleTags { get; set; }
+        public List<CommentModel>? Comments { get; set; }
 
         public static implicit operator ArticleModel(Article article)
         {
-            return new ArticleModel()
+            ArticleModel articleModel = new ArticleModel()
             {
                 Id = article.Id,
                 Body = article.Body,
                 CategoryId = article.CategoryId,
                 PublishDateTime = article.PublishDateTime,
                 Title = article.Title,
-                UserId = article.UserId,
-                CommentIds = article.Comments != null ? article.Comments.Select(comment => comment.Id).ToList() : null
+                UserId = article.UserId
             };
+
+            if (article.Category != null)
+            {
+                articleModel.Category = article.Category;
+            }
+            if (article.User != null)
+            {
+                articleModel.User = article.User;
+            }
+            if (article.ArticleTags != null)
+            {
+                articleModel.ArticleTags = article.ArticleTags.Select<ArticleTag, ArticleTagModel>(articleTag => articleTag).ToList();
+            }
+            if (article.Category != null)
+            {
+                articleModel.Comments = article.Comments.Select<Comment, CommentModel>(comment => comment).ToList();
+            }
+
+            return articleModel;
         }
 
         public static implicit operator Article(ArticleModel articleModel)
         {
-            return new Article()
+            Article article =  new Article()
             {
                 Id = articleModel.Id,
                 Body = articleModel.Body,
@@ -50,6 +71,25 @@ namespace ComputerStore.Models
                 Title = articleModel.Title,
                 UserId = articleModel.UserId
             };
+
+            if (articleModel.Category != null)
+            {
+                article.Category = articleModel.Category;
+            }
+            if (articleModel.User != null)
+            {
+                article.User = articleModel.User;
+            }
+            if (articleModel.ArticleTags != null)
+            {
+                article.ArticleTags = articleModel.ArticleTags.Select<ArticleTagModel, ArticleTag>(articleTag => articleTag).ToList();
+            }
+            if (articleModel.Category != null)
+            {
+                article.Comments = articleModel.Comments.Select<CommentModel, Comment>(comment => comment).ToList();
+            }
+
+            return article;
         }
     }
 }
