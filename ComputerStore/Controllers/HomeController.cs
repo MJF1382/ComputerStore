@@ -186,5 +186,29 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.Ok, articleModels);
         }
+
+        [HttpGet("blog/{id}")]
+        public async Task<ApiResult> GetArticlesData([FromRoute] Guid id)
+        {
+            Article? article = (await _articleRepository.FindByConditionAsync(
+                p => p.Id == id,
+                new Expression<Func<Article, object>>[]
+                {
+                    p => p.Category,
+                    p => p.User,
+                    p => p.ArticleTags,
+                    p => p.Comments
+                }))
+                .FirstOrDefault();
+
+            if (article != null)
+            {
+                ArticleModel articleModel = article;
+
+                return new ApiResult(Status.Ok, articleModel);
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
