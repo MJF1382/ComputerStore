@@ -178,14 +178,6 @@ namespace ComputerStore.Database.Entities
         public float Score { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string FullName { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string Email { get; set; }
-
-        [Required]
         public string Type { get; set; }
 
         [Required]
