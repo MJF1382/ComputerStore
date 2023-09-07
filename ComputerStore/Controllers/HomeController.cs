@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace ComputerStore.Controllers
 {
-    [Route("api/home")]
+    [Route("api")]
     [ApiController]
     public class HomeController : ControllerBase
     {
@@ -87,6 +87,32 @@ namespace ComputerStore.Controllers
                 Categories = categories,
                 Brands = brands
             });
+        }
+
+        [HttpGet("product/{id}")]
+        public async Task<ApiResult> GetProductData([FromRoute] Guid id)
+        {
+            Product? product = (await _unitOfWork.ProductRepository.FindByConditionAsync(
+                p => p.Id == id,
+                new Expression<Func<Product, object>>[] {
+                    p => p.Brand,
+                    p => p.Category,
+                    p => p.Comments,
+                    p => p.ExtraDetails
+                }))
+                .FirstOrDefault();
+
+            if (product != null)
+            {
+                ProductModel productModel = product;
+
+                return new ApiResult(Status.Ok, new
+                {
+                    Product = productModel
+                });
+            }
+
+            return new ApiResult(Status.NotFound);
         }
     }
 }
