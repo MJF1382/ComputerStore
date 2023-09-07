@@ -11,13 +11,13 @@ namespace ComputerStore.Classes
             {
                 string firstDiggit = StatusCode.ToString()[0].ToString();
 
-                if (firstDiggit == "4" || firstDiggit == "5")
+                if (firstDiggit == "2")
                 {
-                    return false;
+                    return true;
                 }
                 else
                 {
-                    return true;
+                    return false;
                 }
             }
         }
