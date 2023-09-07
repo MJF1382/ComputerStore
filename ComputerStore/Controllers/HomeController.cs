@@ -1,12 +1,9 @@
 ﻿using ComputerStore.Classes;
-using ComputerStore.Database;
 using ComputerStore.Database.Entities;
 using ComputerStore.Database.Repositories;
 using ComputerStore.Database.UnitOfWork;
 using ComputerStore.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ComputerStore.Controllers
@@ -19,6 +16,7 @@ namespace ComputerStore.Controllers
         private readonly IRepositoryBase<Satisfaction> _satisfactionRepository;
         private readonly IRepositoryBase<Article> _articleRepository;
         private readonly IRepositoryBase<Comment> _commentRepository;
+        private readonly IRepositoryBase<Feedback> _feedbackRepository;
 
         public HomeController(IUnitOfWork unitOfWork)
         {
@@ -26,6 +24,7 @@ namespace ComputerStore.Controllers
             _satisfactionRepository = _unitOfWork.RepositoryBase<Satisfaction>();
             _articleRepository = _unitOfWork.RepositoryBase<Article>();
             _commentRepository = _unitOfWork.RepositoryBase<Comment>();
+            _feedbackRepository = _unitOfWork.RepositoryBase<Feedback>();
         }
 
         [HttpGet("index")]
@@ -152,6 +151,22 @@ namespace ComputerStore.Controllers
             }
 
             return new ApiResult(Status.NotFound);
+        }
+
+        [HttpPost("contact-us")]
+        public async Task<ApiResult> SendFeedback([FromBody] FeedbackModel feedbackModel)
+        {
+            feedbackModel.Id = Guid.NewGuid();
+
+            await _feedbackRepository.AddAsync(feedbackModel);
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Created, feedbackModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
         }
     }
 }
