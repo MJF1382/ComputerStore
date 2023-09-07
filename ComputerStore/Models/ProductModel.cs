@@ -32,9 +32,14 @@ namespace ComputerStore.Models
         [Required(ErrorMessage = "تعداد محصول را وارد کنید.")]
         public int Quantity { get; set; }
 
+        public CategoryModel? Category { get; set; }
+        public BrandModel? Brand { get; set; }
+        public List<ExtraDetailModel>? ExtraDetails { get; set; }
+        public List<CommentModel>? Comments { get; set; }
+
         public static implicit operator ProductModel(Product product)
         {
-            return new ProductModel()
+            ProductModel productModel = new ProductModel()
             {
                 Id = product.Id,
                 BrandId = product.BrandId,
@@ -46,11 +51,30 @@ namespace ComputerStore.Models
                 Title = product.Title,
                 Warranty = product.Warranty
             };
+
+            if (product.Brand != null)
+            {
+                productModel.Brand = product.Brand;
+            }
+            if (product.Category != null)
+            {
+                productModel.Category = product.Category;
+            }
+            if (product.ExtraDetails != null)
+            {
+                productModel.ExtraDetails = product.ExtraDetails.Select<ExtraDetail, ExtraDetailModel>(extraDetail => extraDetail).ToList();
+            }
+            if (product.Comments != null)
+            {
+                productModel.Comments = product.Comments.Select<Comment, CommentModel>(comment => comment).ToList();
+            }
+            
+            return productModel;
         }
 
         public static implicit operator Product(ProductModel productModel)
         {
-            return new Product()
+            Product product = new Product()
             {
                 Id = productModel.Id,
                 BrandId = productModel.BrandId,
@@ -62,6 +86,25 @@ namespace ComputerStore.Models
                 Title = productModel.Title,
                 Warranty = productModel.Warranty
             };
+
+            if (productModel.Brand != null)
+            {
+                product.Brand = productModel.Brand;
+            }
+            if (productModel.Category != null)
+            {
+                product.Category = productModel.Category;
+            }
+            if (productModel.ExtraDetails != null)
+            {
+                product.ExtraDetails = productModel.ExtraDetails.Select<ExtraDetailModel, ExtraDetail>(extraDetail => extraDetail).ToList();
+            }
+            if (productModel.Comments != null)
+            {
+                product.Comments = productModel.Comments.Select<CommentModel, Comment>(comment => comment).ToList();
+            }
+
+            return product;
         }
     }
 }
