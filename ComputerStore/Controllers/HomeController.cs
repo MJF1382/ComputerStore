@@ -231,5 +231,37 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.NotFound);
         }
+
+        [HttpPost("blog/{articleId}/comments")]
+        public async Task<ApiResult> SendCommentToArticle([FromRoute] Guid articleId, [FromBody] CommentModel commentModel)
+        {
+            if (await _articleRepository.FindByIdAsync(articleId) is Article)
+            {
+                if (commentModel.Type == "Article")
+                {
+                    commentModel.Id = Guid.NewGuid();
+                    commentModel.ArticleId = articleId;
+                    commentModel.PublishDateTime = DateTime.Now;
+                    commentModel.Status = "در حال بررسی";
+
+                    await _commentRepository.AddAsync(commentModel);
+                    bool result = await _unitOfWork.Save();
+
+                    if (result)
+                    {
+                        return new ApiResult(Status.Created, commentModel);
+                    }
+
+                    return new ApiResult(Status.InternalServerError);
+                }
+
+                return new ApiResult(Status.BadRequest, null, new List<string>()
+                {
+                    "نوع کامنت ارسال شده مقاله نیست."
+                });
+            }
+
+            return new ApiResult(Status.NotFound);
+        }
     }
 }
