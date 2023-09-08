@@ -4,6 +4,7 @@ using ComputerStore.Database.Repositories;
 using ComputerStore.Database.UnitOfWork;
 using ComputerStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ComputerStore.Controllers
@@ -17,6 +18,7 @@ namespace ComputerStore.Controllers
         private readonly IRepositoryBase<Article> _articleRepository;
         private readonly IRepositoryBase<Comment> _commentRepository;
         private readonly IRepositoryBase<Feedback> _feedbackRepository;
+        private readonly IRepositoryBase<ProductPurchase> _productPurchaseRepository;
 
         public HomeController(IUnitOfWork unitOfWork)
         {
@@ -25,6 +27,7 @@ namespace ComputerStore.Controllers
             _articleRepository = _unitOfWork.RepositoryBase<Article>();
             _commentRepository = _unitOfWork.RepositoryBase<Comment>();
             _feedbackRepository = _unitOfWork.RepositoryBase<Feedback>();
+            _productPurchaseRepository = _unitOfWork.RepositoryBase<ProductPurchase>();
         }
 
         [HttpGet("index")]
@@ -262,6 +265,29 @@ namespace ComputerStore.Controllers
             }
 
             return new ApiResult(Status.NotFound);
+        }
+
+        [HttpPost("payment")]
+        public async Task<ApiResult> SendPaymentRequest([FromBody] PurchaseModel purchaseModel)
+        {
+            purchaseModel.Id = Guid.NewGuid();
+            purchaseModel.PurchaseDateTime = DateTime.Now;
+            purchaseModel.IsVerified = false;
+            purchaseModel.ProductPurchases.ForEach(productPurchase => productPurchase.PurchaseId = purchaseModel.Id);
+
+            await _unitOfWork.PurchaseRepository.AddAsync(purchaseModel);
+            await _unitOfWork.RepositoryBase<ProductPurchase>()
+                .AddRangeAsync(purchaseModel.ProductPurchases
+                .Select<ProductPurchaseModel, ProductPurchase>(productPurchase => productPurchase)
+                .ToList());
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok, purchaseModel);
+            }
+
+            return new ApiResult(Status.InternalServerError);
         }
     }
 }
