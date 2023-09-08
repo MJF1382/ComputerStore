@@ -135,19 +135,28 @@ namespace ComputerStore.Controllers
         {
             if (await _unitOfWork.ProductRepository.FindByIdAsync(productId) is Product)
             {
-                commentModel.Id = Guid.NewGuid();
-                commentModel.ProductId = productId;
-                commentModel.PublishDateTime = DateTime.Now;
-
-                await _commentRepository.AddAsync(commentModel);
-                bool result = await _unitOfWork.Save();
-
-                if (result)
+                if (commentModel.Type == "Product")
                 {
-                    return new ApiResult(Status.Created, commentModel);
+                    commentModel.Id = Guid.NewGuid();
+                    commentModel.ProductId = productId;
+                    commentModel.PublishDateTime = DateTime.Now;
+                    commentModel.Status = "در حال بررسی";
+
+                    await _commentRepository.AddAsync(commentModel);
+                    bool result = await _unitOfWork.Save();
+
+                    if (result)
+                    {
+                        return new ApiResult(Status.Created, commentModel);
+                    }
+
+                    return new ApiResult(Status.InternalServerError);
                 }
 
-                return new ApiResult(Status.InternalServerError);
+                return new ApiResult(Status.BadRequest, null, new List<string>()
+                {
+                    "نوع کامنت ارسال شده محصول نیست."
+                });
             }
 
             return new ApiResult(Status.NotFound);
