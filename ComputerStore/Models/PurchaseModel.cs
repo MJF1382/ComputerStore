@@ -36,12 +36,14 @@ namespace ComputerStore.Models
 
         public DateTime PurchaseDateTime { get; set; }
 
+        public bool IsVerified { get; set; }
+
         [Required(ErrorMessage = "هیچ محصولی در سبد خرید شما وجود ندارد.")]
-        public List<ProductPurchaseModel> ProductPurchases { get; set; }
+        public List<ProductPurchaseModel>? ProductPurchases { get; set; }
 
         public static implicit operator PurchaseModel(Purchase purchase)
         {
-            return new PurchaseModel()
+            PurchaseModel purchaseModel = new PurchaseModel()
             {
                 Address = purchase.Address,
                 Amount = purchase.Amount,
@@ -53,8 +55,15 @@ namespace ComputerStore.Models
                 Province = purchase.Province,
                 PurchaseDateTime = purchase.PurchaseDateTime,
                 UserId = purchase.UserId,
-                ProductPurchases = purchase.ProductPurchases != null ? purchase.ProductPurchases.Select<ProductPurchase, ProductPurchaseModel>(productPurchase => productPurchase).ToList() : new List<ProductPurchaseModel>()
+                IsVerified = purchase.IsVerified
             };
+
+            if (purchase.ProductPurchases != null)
+            {
+                purchaseModel.ProductPurchases = purchase.ProductPurchases.Select<ProductPurchase, ProductPurchaseModel>(productPurchase => productPurchase).ToList();
+            }
+
+            return purchaseModel;
         }
 
         public static implicit operator Purchase(PurchaseModel purchaseModel)
@@ -70,7 +79,8 @@ namespace ComputerStore.Models
                 PostalCode = purchaseModel.PostalCode,
                 Province = purchaseModel.Province,
                 PurchaseDateTime = purchaseModel.PurchaseDateTime,
-                UserId = purchaseModel.UserId
+                UserId = purchaseModel.UserId,
+                IsVerified = purchaseModel.IsVerified
             };
         }
     }

@@ -243,6 +243,8 @@ namespace ComputerStore.Database.Entities
         [Required]
         public DateTime PurchaseDateTime { get; set; }
 
+        public bool IsVerified { get; set; }
+
         public List<ProductPurchase> ProductPurchases { get; set; }
         public AppUser User { get; set; }
     }
