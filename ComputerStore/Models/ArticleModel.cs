@@ -52,7 +52,7 @@ namespace ComputerStore.Models
             {
                 articleModel.ArticleTags = article.ArticleTags.Select<ArticleTag, ArticleTagModel>(articleTag => articleTag).ToList();
             }
-            if (article.Category != null)
+            if (article.Comments != null)
             {
                 articleModel.Comments = article.Comments.Select<Comment, CommentModel>(comment => comment).ToList();
             }
@@ -84,7 +84,7 @@ namespace ComputerStore.Models
             {
                 article.ArticleTags = articleModel.ArticleTags.Select<ArticleTagModel, ArticleTag>(articleTag => articleTag).ToList();
             }
-            if (articleModel.Category != null)
+            if (articleModel.Comments != null)
             {
                 article.Comments = articleModel.Comments.Select<CommentModel, Comment>(comment => comment).ToList();
             }
