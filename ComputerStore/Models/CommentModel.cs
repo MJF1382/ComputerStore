@@ -26,6 +26,8 @@ namespace ComputerStore.Models
 
         public DateTime PublishDateTime { get; set; }
 
+        public string Status { get; set; }
+
         public static implicit operator CommentModel(Comment comment)
         {
             return new CommentModel()
@@ -37,7 +39,10 @@ namespace ComputerStore.Models
                 Body = comment.Body,
                 ProductId = comment.ProductId,
                 Score = comment.Score,
-                Type = comment.Type
+                Type = comment.Type,
+                Status = comment.Status == 1 ? "در حال بررسی"
+                            : comment.Status == 2 ? "تایید شده"
+                                : "رد شده"
             };
         }
 
@@ -52,7 +57,10 @@ namespace ComputerStore.Models
                 Body = commentModel.Body,
                 ProductId = commentModel.ProductId,
                 Score = commentModel.Score,
-                Type = commentModel.Type
+                Type = commentModel.Type,
+                Status = commentModel.Status == "در حال بررسی" ? 1
+                            : commentModel.Status == "تایید شده" ? 2
+                                : 3
             };
         }
     }
