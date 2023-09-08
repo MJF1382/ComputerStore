@@ -289,5 +289,21 @@ namespace ComputerStore.Controllers
 
             return new ApiResult(Status.InternalServerError);
         }
+
+        [HttpPost("verify-payment")]
+        public async Task<ApiResult> VerifyPayment([FromBody] PurchaseModel purchaseModel)
+        {
+            purchaseModel.IsVerified = true;
+
+            _unitOfWork.PurchaseRepository.Update(purchaseModel);
+            bool result = await _unitOfWork.Save();
+
+            if (result)
+            {
+                return new ApiResult(Status.Ok);
+            }
+
+            return new ApiResult(Status.InternalServerError);
+        }
     }
 }
