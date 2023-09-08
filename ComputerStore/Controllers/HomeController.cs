@@ -205,13 +205,18 @@ namespace ComputerStore.Controllers
             {
                 ArticleModel articleModel = article;
                 List<CommentModel> comments = articleModel.Comments;
+                List<ArticleModel>? relatedArticles = (await _articleRepository.FindByConditionAsync(
+                    p => p.CategoryId == articleModel.CategoryId && p.Id != articleModel.Id))
+                    .Select<Article, ArticleModel>(article => article)
+                    .ToList();
 
                 articleModel.Comments = null;
 
                 return new ApiResult(Status.Ok, new
                 {
                     Article = articleModel,
-                    Comments = comments
+                    Comments = comments,
+                    RelatedArticles = relatedArticles
                 });
             }
 
