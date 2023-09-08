@@ -25,14 +25,17 @@ namespace ComputerStore.Controllers
         [HttpGet]
         public async Task<ApiResult> GetPurchases()
         {
-            List<PurchaseModel> purchases = (await _unitOfWork.PurchaseRepository.FindByConditionAsync(
+            List<Purchase> purchases = (await _unitOfWork.PurchaseRepository.FindByConditionAsync(
                 null,
                 new Expression<Func<Purchase, object>>[]
                 {
                     p => p.ProductPurchases
-                })).Select<Purchase, PurchaseModel>(purchase => purchase).ToList();
+                })).ToList();
 
-            return new ApiResult(Status.Ok, purchases);
+            purchases.ForEach(purchase => purchase.ProductPurchases.ForEach(productPurchase => productPurchase.Purchase = null));
+            List<PurchaseModel> purchasesModel = purchases.Select<Purchase, PurchaseModel>(purchase => purchase).ToList();
+
+            return new ApiResult(Status.Ok, purchasesModel);
         }
 
         [HttpPost]
