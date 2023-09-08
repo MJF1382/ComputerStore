@@ -26,7 +26,7 @@ namespace ComputerStore.Models
 
         public DateTime PublishDateTime { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public static implicit operator CommentModel(Comment comment)
         {
