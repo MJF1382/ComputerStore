@@ -200,9 +200,6 @@ namespace ComputerStore.Database.Entities
         [Required]
         public DateTime PublishDateTime { get; set; }
 
-        [Required]
-        public int Status { get; set; }
-
         public Product Product { get; set; }
         public Article Article { get; set; }
         public AppUser User { get; set; }
